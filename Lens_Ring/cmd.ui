@@ -541,6 +541,26 @@ background-color: rgb(164, 205, 106);</string>
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>HIGH_SPEED</tabstop>
+  <tabstop>High_Speed_Initial</tabstop>
+  <tabstop>HIGH_SPEED_SET</tabstop>
+  <tabstop>High_Speed_Acceleration</tabstop>
+  <tabstop>LOW_SPEED</tabstop>
+  <tabstop>Low_Speed_Initial</tabstop>
+  <tabstop>LOW_SPEED_SET</tabstop>
+  <tabstop>Low_Speed_Acceleration</tabstop>
+  <tabstop>Camera1_up</tabstop>
+  <tabstop>Camera1_down</tabstop>
+  <tabstop>Camera2_up</tabstop>
+  <tabstop>Camera2_down</tabstop>
+  <tabstop>Anticlockwise</tabstop>
+  <tabstop>Clockwise</tabstop>
+  <tabstop>Camera2_up_2</tabstop>
+  <tabstop>Camera2_down_2</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
  <buttongroups>

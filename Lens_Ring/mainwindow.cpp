@@ -1,4 +1,3 @@
-
 //                       ::
 //                      :;J7, :,                        ::;7:
 //                      ,ivYi, ,                       ;LLLFS:
@@ -56,11 +55,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ic_cap,SIGNAL(signal_open_Camera(bool)),this,SLOT(slot_open_Camera(bool)));
 
+    //set button enable
+    ui->START->setEnabled(false);
 //initialization the card and it's parameters
     ControlCard_Initialization();
     if(board_initialization)
     {
-        sen->start();
+//        sen->start();
         ic_cap->start();
     }
 }

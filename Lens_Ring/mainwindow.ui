@@ -98,7 +98,7 @@ background-color: rgb(164, 205, 106);</string>
     <property name="geometry">
      <rect>
       <x>640</x>
-      <y>140</y>
+      <y>150</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -107,17 +107,56 @@ background-color: rgb(164, 205, 106);</string>
      <string>开始</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="DETECTION">
+   <widget class="QPushButton" name="PAUSE">
     <property name="geometry">
      <rect>
       <x>640</x>
-      <y>180</y>
+      <y>210</y>
       <width>75</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>检测</string>
+     <string>暂停</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RESUME">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>270</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>继续</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="STOP">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>320</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>停止</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RESET">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>370</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>复位</string>
     </property>
    </widget>
   </widget>
@@ -145,6 +184,8 @@ background-color: rgb(164, 205, 106);</string>
     <addaction name="actionPART1"/>
     <addaction name="actionPART2"/>
     <addaction name="actionPART3"/>
+    <addaction name="actionPART4"/>
+    <addaction name="actionPART5"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -186,6 +227,16 @@ background-color: rgb(164, 205, 106);</string>
   <action name="actionPART3">
    <property name="text">
     <string>PART3</string>
+   </property>
+  </action>
+  <action name="actionPART4">
+   <property name="text">
+    <string>PART4</string>
+   </property>
+  </action>
+  <action name="actionPART5">
+   <property name="text">
+    <string>PART5</string>
    </property>
   </action>
  </widget>

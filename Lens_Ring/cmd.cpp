@@ -19,6 +19,7 @@ CMD::CMD(QWidget *parent) :
     }
     //initializer the speed
     on_LOW_SPEED_clicked();
+    disp_parameters();
 }
 
 CMD::~CMD()
@@ -29,7 +30,18 @@ CMD::~CMD()
 
 void CMD::disp_parameters()
 {
-
+    QString _position=QString::number(d1000_get_command_pos(0));
+    QString _position1=QString::number(d1000_get_command_pos(1));
+    QString _position2=QString::number(d1000_get_command_pos(2));
+    ui->position0->setText(_position);
+    ui->position1->setText(_position1);
+    ui->position2->setText(_position2);
+    ui->High_Speed_Initial->setText(configFile->value("Speed_Set/High_Speed_Initial").toString());
+    ui->HIGH_SPEED_SET->setText(configFile->value("Speed_Set/High_Speed").toString());
+    ui->High_Speed_Acceleration->setText(configFile->value("Speed_Set/High_Speed_Acceleration").toString());
+    ui->Low_Speed_Initial->setText(configFile->value("Speed_Set/Low_Speed_Initial").toString());
+    ui->LOW_SPEED_SET->setText(configFile->value("Speed_Set/Low_Speed").toString());
+    ui->Low_Speed_Acceleration->setText(configFile->value("Speed_Set/Low_Speed_Acceleration").toString());
 }
 
 //High Speed parameters set.
@@ -80,7 +92,7 @@ void CMD::on_LOW_SPEED_clicked()
 }
 
 //Commissioning Button function.
-
+//camera2 = rise and descend
 void CMD::on_Camera1_up_clicked()
 {
     d1000_start_t_move(2,50,StrVel,MaxVel,Tacc);

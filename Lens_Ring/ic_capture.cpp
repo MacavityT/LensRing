@@ -14,9 +14,9 @@ void IC_Capture::run()
 {
     try
     {
-        OpenFramegrabber("DirectShow", 1, 1, 0, 0, 0, 0, "default", 8, "rgb", -1, "false",
+        OpenFramegrabber("DirectShow", 1, 1, 0, 0, 0, 0, "default", 8, "gray", -1, "false",
             "[0] Y800 (1024x768)", "[0]", 0, -1, &hv_AcqHandle);
-        OpenFramegrabber("DirectShow", 1, 1, 0, 0, 0, 0, "default", 8, "rgb", -1, "false",
+        OpenFramegrabber("DirectShow", 1, 1, 0, 0, 0, 0, "default", 8, "gray", -1, "false",
             "[0] Y800 (1024x768)", "[1]", 0, -1, &hv_AcqHandle1);
     }
     catch(...)
