@@ -3,11 +3,16 @@
 
 bool Running::pause=false;
 bool Running::resume=false;
+bool Running::stop=false;
+bool Running::rise_edge1=false;
+bool Running::rise_edge2=false;
+int Running::detection=0;
 
 Running::Running()
 {
     configFile=new QSettings(".\\Lens-Ring\\Parameters_Setting.ini",QSettings::IniFormat);
     configFile1=new QSettings(".\\Lens-Ring\\Temporary_File.ini",QSettings::IniFormat);
+    memset(rotation,0,sizeof (double) *10);//fill specific value and its size to a memory
     read_all_model();
 }
 
@@ -20,27 +25,58 @@ Running::~Running()
 
 void Running::run()
 {
-    int total_position=0;
     for(int i=0;i<10;i++)
     {
         if(rotation[i]==0)
         {
-            total_position=i;
+            total_position=i;//this value is equal to natural number (except 0),but arraies are start with 0
             break;
         }
     }
+    /*through the position number to confirm if the lens (1) image  need be detected.
+     if total_position=0 , and the model path number equal to 1,the lens 1 needn't to be used.
+     and when total_position=0 and the model path number equal to 2,both of two lens need be used. */
+    int index=0;//this is the position number will be compared.
     while(true)
     {
-        if(reset_finished)
+        ///single camera(1) is used
+        if(total_position!=0&&detection==0&&rise_edge1&&reset_finished&&detection_position_arrive)
         {
-            //rotation
-            d1000_start_sv_move(0,speed_set[0][0],speed_set[0][1],speed_set[0][2]);
-            while(d1000_check_done(0)==0)
+            rise_edge1=false;
+            while(index!=total_position)
             {
-                //emit detection signals when arrive corresponding position
-
-                while(pause)
+                single_axis_action_absolute(0,rotation[index]);
+                single_axis_check_done(0,rotation[index]);
+                detection_number=index;
+                while(detection==1)
                 {}
+                detection=1;
+                index++;
+            }
+            single_origin_back(0);
+        }
+        ///single camera(2) is used
+        if(total_position==0&&detection==0&&rise_edge2&&model_path.length()==1&&\
+                reset_finished&&detection_position_arrive)
+        {
+            detection=2;
+            rise_edge2=false;
+            //request image 1 detection
+            if(stop)
+            {
+                return;
+            }
+        }
+        ///both of two camera are used
+        if(total_position==0&&detection==0&&rise_edge2&&model_path.length()==2&&\
+                reset_finished&&detection_position_arrive)
+        {
+            detection=3;
+            rise_edge2=false;
+            //request image 2 detection
+            if(stop)
+            {
+                return;
             }
         }
     }
@@ -83,6 +119,8 @@ void Running::slot_read_model(int i)
 {
     QString num=i+'0';
     model_path.insert(i-1,configFile1->value("Model_path/model"+num).toString());
+    model_path_changed=true;
+    //read shape model
 //    qDebug()<<*(model_path.begin());
 }
 
@@ -102,39 +140,127 @@ void Running::read_all_model()
             break;
         }
     }
+    //read shape model
+
+    model_path_changed=false;
+//    qDebug()<<"model path size"<<model_path.size();
 //    qDebug()<<model_number;
-//    qDebug()<<configFile1->contains("Model_path/model9");
+//    qDebug()<<configFile1->contains("Model_path/model9");   
 }
 
 
 ////running process control
 void Running::slot_reset()
 {
+    //set flag
+    reset_finished=false;
+    detection_position_arrive=false;
+    emit signal_lock_all_buttons(true);
     //origin back process
     for(int i=0;i<=2;i++)
     {
         d1000_home_move(i,speed_set[i][0],speed_set[i][1],speed_set[i][2]);
     }
-    //when rotation origin sensor is triggered , stop it
-    int x;
-    do
-    {
-        x=0;
-        for(int j=0;j<=2;j++)
-        {
-            x+=d1000_check_done(j);
-        }
-        while(pause)
-        {
-//wait for resume
-        }
-    }while(x!=3);
+    all_axis_check_done();
     //clear the position
     for(int k=0;k<=2;k++)
     {
         d1000_set_command_pos(k,0);
     }
     //move to detection position
+    d1000_start_ta_move(1,camera[0],speed_set[1][0],speed_set[1][1],speed_set[1][2]);
+    d1000_start_ta_move(2,camera[1],speed_set[2][0],speed_set[2][1],speed_set[2][2]);
+    all_axis_check_done();
+    //set flag
     reset_finished=true;
+    detection_position_arrive=true;
     emit signal_lock_all_buttons(false);
+}
+
+void Running::move_to_detection_position()
+{
+    detection_position_arrive=false;
+    emit signal_lock_all_buttons(true);
+    d1000_home_move(0,speed_set[0][0],speed_set[0][1],speed_set[0][2]);
+    d1000_start_ta_move(1,camera[0],speed_set[1][0],speed_set[1][1],speed_set[1][2]);
+    d1000_start_ta_move(2,camera[1],speed_set[2][0],speed_set[2][1],speed_set[2][2]);
+    all_axis_check_done();
+    detection_position_arrive=true;
+    emit signal_lock_all_buttons(false);
+}
+
+void Running::all_axis_check_done()
+{
+    int x,y,z;
+    do
+    {
+        x=d1000_check_done(0);
+        y=d1000_check_done(1);
+        z=d1000_check_done(2);
+        while(pause)
+        {
+            //wait for resume
+        }
+    }while(x==0||y==0||z==0);
+}
+
+void Running::single_axis_check_done(short axis, long pulse)
+{
+    do
+    {
+        while(pause)
+        {}
+    }while(!(d1000_check_done(axis)));
+    //here is the programmer of compare the position
+    if(resume&&pulse&&pulse!=(d1000_get_command_pos(axis)))//if there are a pulse parameter and the position have not get the correct falg
+    {
+
+        resume=false;
+        d1000_start_ta_move(axis,pulse,speed_set[axis][0],speed_set[axis][1],speed_set[axis][2]);
+        single_axis_check_done(axis,pulse);
+    }
+}
+
+void Running::single_origin_back(short axis)
+{
+    d1000_home_move(axis,speed_set[axis][0],speed_set[axis][1],speed_set[axis][2]);
+    single_axis_check_done(axis,NULL);
+    d1000_set_command_pos(axis,0);
+}
+
+void Running::single_axis_action_absolute(short axis, long pulse)
+{
+    d1000_start_ta_move(axis,pulse,speed_set[axis][0],speed_set[axis][1],speed_set[axis][2]);
+    single_axis_check_done(axis,pulse);
+}
+
+////image detection functions
+void Running::slot_detection_image1(HObject image)
+{
+    if(detection_number>=0)
+    {
+        //single camera 1 , need to rotate
+        qDebug()<<"image detection 1 rotatation";
+        model_path[detection_number];//detection_number start with 0,model ID should equal to this
+        if(detection_number!=total_position)
+        {
+            emit signal_disp_result(1,3);
+        }
+        else
+        {
+            emit signal_disp_result(1,1);
+        }
+    }
+    else
+    {
+        //both of two cameras,model path is equal to model_path[0]
+        qDebug()<<"image detection 1 no rotation";
+        model_path[0];
+    }
+}
+
+void Running::slot_detection_image2(HObject image)
+{
+    qDebug()<<"image detection 2";
+    model_path[1];
 }

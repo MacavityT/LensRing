@@ -56,6 +56,7 @@ public:
 
 protected:
     void mouseMoveEvent(QMouseEvent *event);
+//    void mousePressEvent(QMouseEvent *event);
 
 signals:
 //    void signal_cap_image1();

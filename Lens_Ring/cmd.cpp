@@ -151,7 +151,7 @@ void CMD::on_Brightness_add_clicked()
     send_data[2]=bright_value;
     send_data[3]=send_data[0]^send_data[1]^send_data[2];
     light->write(send_data);
-    QString tem=bright_value;
+    QString tem=bright_value+'0';
     ui->brightness->setText(tem);
     configFile->setValue("Brightness",bright_value);
 }
@@ -162,7 +162,7 @@ void CMD::on_Brightness_decrease_clicked()
     send_data[2]=bright_value;
     send_data[3]=send_data[0]^send_data[1]^send_data[2];
     light->write(send_data);
-    QString tem=bright_value;
+    QString tem=bright_value+'0';
     ui->brightness->setText(tem);
     configFile->setValue("Brightness",bright_value);
 }
@@ -250,6 +250,7 @@ void CMD::slot_disp_image1(HObject ic)
 {
     HTuple hv_Width, hv_Height;
 //    ho_Image1=ic;
+    ZoomImageSize(ic, &ic, 430, 310, "bilinear");
     if(first_open1)
     {
         GetImageSize(ic, &hv_Width, &hv_Height);
@@ -269,6 +270,7 @@ void CMD::slot_disp_image2(HObject ic)
 {
     HTuple hv_Width, hv_Height;
 //    ho_Image2=ic;
+    ZoomImageSize(ic, &ic, 430, 310, "bilinear");
     if(first_open2)
     {
         GetImageSize(ic, &hv_Width, &hv_Height);

@@ -23,6 +23,7 @@
 #include "running.h"
 #include "model.h"
 #include "ic_capture.h"
+#include "sensorthread.h"
 
 using namespace HalconCpp;
 using namespace std;
@@ -47,6 +48,7 @@ protected:
     QApplication *app;
     IC_Capture *ic_cap;
     Running *run;
+    SensorThread *sen;
     QSettings *configFile;
     QSettings *configFile1;
 //variable define
@@ -72,17 +74,14 @@ public slots:
     void slot_open_Camera(bool);
     void slot_disp_image1(HObject);
     void slot_disp_image2(HObject);
-    void slot_detection_image1(HObject);
-    void slot_detection_image2(HObject);
 
     void lock_all_buttons(bool);
+    void slot_disp_result(int,int);
 
 private slots:
     void on_actionCMD_triggered();
 
     void on_actionPMD_triggered();
-
-    void on_actionMODEL_triggered();
 
     void on_START_clicked();
 

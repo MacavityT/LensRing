@@ -202,7 +202,7 @@ void pmd::lock_ui(bool YN)
         QObject *wid=*i;
         if(wid->isWidgetType()&&wid->objectName()!="CHANGE"&&wid->objectName()!="CLOSE")
         {
-            static_cast<QWidget*>(wid)->setEnabled(!YN);
+            static_cast<QWidget*>(wid)->setEnabled(!YN);//the code "static_cast" can also replace with "qobject_cast"
         }
     }
 }

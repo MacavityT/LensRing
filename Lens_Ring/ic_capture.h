@@ -4,6 +4,7 @@
 #include <QDebug>
 
 #include "HalconCpp.h"
+#include "running.h"
 
 using namespace HalconCpp;
 
@@ -23,10 +24,15 @@ public:
     static bool cmd_cut;
     static bool cmd_cap;
 
+    Running *ic_run;
+
 signals:
     void signal_open_Camera(bool);
     void signal_disp_image1(HObject);
     void signal_disp_image2(HObject);
+    void signal_detection_image1(HObject);
+    void signal_detection_image2(HObject);
+
     void signal_disp_image3(HObject);
     void signal_disp_image4(HObject);
 

@@ -30,7 +30,8 @@ SOURCES += \
     ic_capture.cpp \
     model.cpp \
     pmd.cpp \
-    running.cpp
+    running.cpp \
+    sensorthread.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -39,7 +40,8 @@ HEADERS += \
     model.h \
     Dmc1000.h \
     pmd.h \
-    running.h
+    running.h \
+    sensorthread.h
 
 FORMS += \
         mainwindow.ui \
@@ -59,6 +61,7 @@ INCLUDEPATH += G:/HALCON/include/halconcpp
 LIBS += G:/HALCON/lib/x64-win64/halcon.lib
 
 LIBS += G:/HALCON/lib/x64-win64/halconcpp.lib
+
 
 win32: LIBS += -L$$PWD/./ -lDmc1000
 

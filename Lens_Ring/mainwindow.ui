@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="Result1">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -34,7 +34,7 @@ font: 24pt &quot;AcadEref&quot;;</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="Result2">
     <property name="geometry">
      <rect>
       <x>980</x>
@@ -177,7 +177,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QPushButton" name="load_model_1">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>510</x>
       <y>60</y>
       <width>75</width>
       <height>23</height>
@@ -193,7 +193,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>590</x>
       <y>60</y>
       <width>41</width>
       <height>20</height>
@@ -209,9 +209,9 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="disp_path1">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>640</x>
       <y>60</y>
-      <width>181</width>
+      <width>200</width>
       <height>20</height>
      </rect>
     </property>
@@ -225,9 +225,9 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="disp_path2">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>640</x>
       <y>90</y>
-      <width>181</width>
+      <width>200</width>
       <height>20</height>
      </rect>
     </property>
@@ -241,7 +241,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>590</x>
       <y>90</y>
       <width>41</width>
       <height>20</height>
@@ -257,7 +257,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QPushButton" name="load_model_2">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>510</x>
       <y>90</y>
       <width>75</width>
       <height>23</height>
@@ -273,7 +273,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QPushButton" name="load_model_3">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>510</x>
       <y>120</y>
       <width>75</width>
       <height>23</height>
@@ -289,9 +289,9 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="disp_path3">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>640</x>
       <y>120</y>
-      <width>181</width>
+      <width>200</width>
       <height>20</height>
      </rect>
     </property>
@@ -305,7 +305,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="label_10">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>590</x>
       <y>120</y>
       <width>41</width>
       <height>20</height>
@@ -321,7 +321,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="label_11">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>590</x>
       <y>150</y>
       <width>41</width>
       <height>20</height>
@@ -337,9 +337,9 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="disp_path4">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>640</x>
       <y>150</y>
-      <width>181</width>
+      <width>200</width>
       <height>20</height>
      </rect>
     </property>
@@ -353,7 +353,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QPushButton" name="load_model_4">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>510</x>
       <y>150</y>
       <width>75</width>
       <height>23</height>
@@ -369,7 +369,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QPushButton" name="load_model_5">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>510</x>
       <y>180</y>
       <width>75</width>
       <height>23</height>
@@ -385,9 +385,9 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="disp_path5">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>640</x>
       <y>180</y>
-      <width>181</width>
+      <width>200</width>
       <height>20</height>
      </rect>
     </property>
@@ -401,7 +401,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="label_14">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>590</x>
       <y>180</y>
       <width>41</width>
       <height>20</height>
@@ -417,7 +417,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="label_15">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>590</x>
       <y>210</y>
       <width>41</width>
       <height>20</height>
@@ -433,7 +433,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QPushButton" name="load_model_6">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>510</x>
       <y>210</y>
       <width>75</width>
       <height>23</height>
@@ -449,9 +449,9 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="disp_path6">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>640</x>
       <y>210</y>
-      <width>181</width>
+      <width>200</width>
       <height>20</height>
      </rect>
     </property>
@@ -465,9 +465,9 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="disp_path7">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>640</x>
       <y>240</y>
-      <width>181</width>
+      <width>200</width>
       <height>20</height>
      </rect>
     </property>
@@ -481,7 +481,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="label_18">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>590</x>
       <y>240</y>
       <width>41</width>
       <height>20</height>
@@ -497,7 +497,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QPushButton" name="load_model_7">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>510</x>
       <y>240</y>
       <width>75</width>
       <height>23</height>
@@ -513,7 +513,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QPushButton" name="load_model_8">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>510</x>
       <y>270</y>
       <width>75</width>
       <height>23</height>
@@ -529,9 +529,9 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="disp_path8">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>640</x>
       <y>270</y>
-      <width>181</width>
+      <width>200</width>
       <height>20</height>
      </rect>
     </property>
@@ -545,7 +545,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="label_20">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>590</x>
       <y>270</y>
       <width>41</width>
       <height>20</height>
@@ -561,7 +561,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="label_21">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>590</x>
       <y>300</y>
       <width>41</width>
       <height>20</height>
@@ -577,7 +577,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QPushButton" name="load_model_9">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>510</x>
       <y>300</y>
       <width>75</width>
       <height>23</height>
@@ -593,9 +593,9 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="disp_path9">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>640</x>
       <y>300</y>
-      <width>181</width>
+      <width>200</width>
       <height>20</height>
      </rect>
     </property>
@@ -609,9 +609,9 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="disp_path10">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>640</x>
       <y>330</y>
-      <width>181</width>
+      <width>200</width>
       <height>20</height>
      </rect>
     </property>
@@ -625,7 +625,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QLabel" name="label_24">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>590</x>
       <y>330</y>
       <width>41</width>
       <height>20</height>
@@ -641,7 +641,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QPushButton" name="load_model_10">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>510</x>
       <y>330</y>
       <width>75</width>
       <height>23</height>
@@ -774,7 +774,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="Line" name="line_10">
     <property name="geometry">
      <rect>
-      <x>650</x>
+      <x>630</x>
       <y>60</y>
       <width>20</width>
       <height>291</height>
@@ -833,7 +833,6 @@ background-color: rgb(164, 205, 106);</string>
     </property>
     <addaction name="actionCMD"/>
     <addaction name="actionPMD"/>
-    <addaction name="actionMODEL"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
