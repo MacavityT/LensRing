@@ -23,6 +23,8 @@ public:
     static bool rise_edge1;
     static bool rise_edge2;
     static int detection;
+    static bool reset_start;
+    static bool move_to_detection_position_start;
     bool reset_finished=false;
     bool detection_position_arrive=false;
 

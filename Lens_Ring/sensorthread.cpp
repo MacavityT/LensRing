@@ -23,6 +23,7 @@ void SensorThread::run()
         if(sensor1_present-sensor1_previous==1)
         {
             running->rise_edge1=true;
+            qDebug()<<"rise edge1:true";
         }
         sensor1_previous=sensor1_present;
         //plane sensor
@@ -30,6 +31,7 @@ void SensorThread::run()
         if(sensor2_present-sensor2_previous==1)
         {
             running->rise_edge2=true;
+            qDebug()<<"rise edge2:true";
         }
         sensor2_previous=sensor2_present;
     }

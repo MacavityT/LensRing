@@ -6,6 +6,8 @@ bool Running::resume=false;
 bool Running::stop=false;
 bool Running::rise_edge1=false;
 bool Running::rise_edge2=false;
+bool Running::reset_start=false;
+bool Running::move_to_detection_position_start=false;
 int Running::detection=0;
 
 Running::Running()
@@ -25,20 +27,21 @@ Running::~Running()
 
 void Running::run()
 {
-    for(int i=0;i<10;i++)
-    {
-        if(rotation[i]==0)
-        {
-            total_position=i;//this value is equal to natural number (except 0),but arraies are start with 0
-            break;
-        }
-    }
     /*through the position number to confirm if the lens (1) image  need be detected.
      if total_position=0 , and the model path number equal to 1,the lens 1 needn't to be used.
      and when total_position=0 and the model path number equal to 2,both of two lens need be used. */
     int index=0;//this is the position number will be compared.
     while(true)
     {
+        ///reset process
+        if(reset_start)
+        {
+            slot_reset();
+        }
+        if(move_to_detection_position_start)
+        {
+            move_to_detection_position();
+        }
         ///single camera(1) is used
         if(total_position!=0&&detection==0&&rise_edge1&&reset_finished&&detection_position_arrive)
         {
@@ -113,6 +116,22 @@ void Running::get_config_param(int num)
         speed_set[axis_index][1]=configFile->value("Running_Speed/Speed_Set"+axis).toDouble();
         speed_set[axis_index][2]=configFile->value("Running_Speed/Acceleration"+axis).toDouble();
     }
+    //calculate the total number
+    for(int in=0;in<10;in++)
+    {
+        if(rotation[in]==0)
+        {
+            total_position=in;//this value is equal to natural number (except 0),but arraies are start with 0
+            break;
+        }
+    }
+    qDebug()<<"total position ="<<total_position;
+    qDebug()<<"rotation[0]="<<rotation[0];
+    qDebug()<<"rotation[1]="<<rotation[1];
+    qDebug()<<"rotation[2]="<<rotation[2];
+    qDebug()<<"rotation[3]="<<rotation[3];
+    qDebug()<<"rotation[4]="<<rotation[4];
+    qDebug()<<"rotation[5]="<<rotation[5];
 }
 
 void Running::slot_read_model(int i)
@@ -153,6 +172,7 @@ void Running::read_all_model()
 void Running::slot_reset()
 {
     //set flag
+    reset_start=false;
     reset_finished=false;
     detection_position_arrive=false;
     emit signal_lock_all_buttons(true);
@@ -175,10 +195,12 @@ void Running::slot_reset()
     reset_finished=true;
     detection_position_arrive=true;
     emit signal_lock_all_buttons(false);
+    qDebug()<<"All reset finished";
 }
 
 void Running::move_to_detection_position()
 {
+    move_to_detection_position_start=false;
     detection_position_arrive=false;
     emit signal_lock_all_buttons(true);
     d1000_home_move(0,speed_set[0][0],speed_set[0][1],speed_set[0][2]);
