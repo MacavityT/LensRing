@@ -1,4 +1,4 @@
-#include "string"
+﻿#include "string"
 
 struct preface{
     std::string tantai_yan="The most handsome boy!";
@@ -102,15 +102,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(run,SIGNAL(signal_lock_all_buttons(bool)),this,SLOT(lock_all_buttons(bool)));
     connect(run,SIGNAL(signal_disp_result(int,int)),this,SLOT(slot_disp_result(int,int)));
-    //connect running thread (image detection function) with image capture
-    connect(ic_cap,SIGNAL(signal_detection_image1(HObject)),run,SLOT(slot_detection_image1(HObject)));
-    connect(ic_cap,SIGNAL(signal_detection_image2(HObject)),run,SLOT(slot_detection_image2(HObject)));
 
     //set progressbar
     ui->progressBar->setMinimum(0);
     ui->progressBar->setMaximum(100);
     ui->progressBar->setValue(0);
-    ui->progressBar->setFormat("检测进度：%p%");
+    ui->progressBar->setFormat("Inspection Progress:%p%");
     //control buttons
     lock_all_buttons(true);//true is to lock all buttons
     //initialization the card and it's parameters
@@ -374,11 +371,11 @@ void MainWindow::slot_open_Camera(bool y_n)
 {
     if(y_n)
     {
-        ui->statusBar->showMessage(tr("打开相机成功"));
+        ui->statusBar->showMessage(tr("Open camera successfully."));
     }
     else
     {
-        ui->statusBar->showMessage(tr("打开相机失败"));
+        ui->statusBar->showMessage(tr("Open camera failed."));
     }
 }
 
@@ -394,9 +391,12 @@ void MainWindow::slot_disp_result(int label, int status)
         case 2:
             ui->Result1->setText(QObject::tr("<font color = black>%1</font>").arg("NG"));
             ui->Result1->setStyleSheet("background-color:red;font: 90pt Times New Roman");
+            qDebug()<<"display ng";
+            break;
         case 3:
             ui->Result1->setText(QObject::tr("<font color = black>%1</font>").arg("Wait"));
             ui->Result1->setStyleSheet("background-color:white;font: 90pt Times New Roman");
+            break;
         default:
             break;
         }
@@ -410,9 +410,11 @@ void MainWindow::slot_disp_result(int label, int status)
         case 2:
             ui->Result2->setText(QObject::tr("<font color = black>%1</font>").arg("NG"));
             ui->Result2->setStyleSheet("background-color:red;font: 90pt Times New Roman");
+            break;
         case 3:
             ui->Result2->setText(QObject::tr("<font color = black>%1</font>").arg("Wait"));
             ui->Result2->setStyleSheet("background-color:white;font: 90pt Times New Roman");
+            break;
         default:
             break;
         }
@@ -480,7 +482,7 @@ void MainWindow::disp_present_path(int num)
 {
     QString part_num=num+'0';
     QString part_name=configFile->value("Part_Name/part"+part_num+"_name").toString();
-    QString part="部品";
+    QString part="Part";
     part+=part_num+":";
     ui->Part_Num->setText(part+part_name);
 }
@@ -587,8 +589,8 @@ void MainWindow::ControlCard_Initialization()
     if( d1000_board_init()<=0)
     {
         app->beep();
-        QMessageBox::information(this,tr("Warning"),tr("Initialization Failed!"),tr("OK"),0);
-        this->setEnabled(false);
+//        QMessageBox::information(this,tr("Warning"),tr("Initialization Failed!"),tr("OK"),0);
+//        this->setEnabled(false);
         board_initialization=false;
         return;
     }

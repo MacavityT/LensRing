@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QMutex>
 #include <QMutexLocker>
+
+#include "ic_capture.h"
 #include "Dmc1000.h"
 #include "HalconCpp.h"
 
@@ -21,6 +23,7 @@ public:
     ~Running();
     void run();
 
+    IC_Capture *cap;
     //running process control
     static bool pause;
     static bool resume;
@@ -61,6 +64,9 @@ public:
     void single_axis_action_absolute(short,long);
     void single_axis_check_done(short,long);
     void single_origin_back(short);
+    //Inspection images
+    void Inspection_image1(HObject);
+    void Inspection_image2(HObject);
 
 signals:
     void signal_lock_all_buttons(bool);
@@ -71,8 +77,6 @@ public slots:
     void get_config_param(int);
     void slot_read_model(int);
     void slot_reset();
-    void slot_detection_image1(HObject);
-    void slot_detection_image2(HObject);
 };
 
 #endif // Running_H

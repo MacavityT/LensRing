@@ -8,12 +8,10 @@ bool IC_Capture::action_enable=true;
 
 IC_Capture::IC_Capture()
 {
-    ic_run=new Running;
 }
 
 IC_Capture::~IC_Capture()
 {
-    ic_run->deleteLater();
     if(hv_AcqHandle1.Length()!=0)
     {
         CloseFramegrabber(hv_AcqHandle1);
@@ -52,27 +50,11 @@ void IC_Capture::run()
     {
         GrabImageAsync(&ho_Image1, hv_AcqHandle1, -1);
 //        GrabImageAsync(&ho_Image2, hv_AcqHandle2, -1);
-//        ZoomImageSize(ho_Image2, &ho_Image2, 430, 310, "bilinear");
         if(action_enable)
         {
             emit signal_disp_image1(ho_Image1);
 //            emit signal_disp_image2(ho_Image2);
             //select witch image need to be detected.
-            switch (ic_run->detection) {
-            case 1:
-                emit signal_detection_image1(ho_Image1);
-                ic_run->detection=0;
-                break;
-            case 2:
-                emit signal_detection_image2(ho_Image2);
-                ic_run->detection=0;
-            case 3:
-                emit signal_detection_image1(ho_Image1);
-                emit signal_detection_image2(ho_Image2);
-                ic_run->detection=0;
-            default:
-                break;
-            }
         }
         if(cmd_cap&&!cmd_cut)
         {

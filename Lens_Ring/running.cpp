@@ -13,6 +13,7 @@ int Running::detection=0;
 
 Running::Running()
 {
+    cap=new IC_Capture;
     configFile=new QSettings(".\\Lens-Ring\\Parameters_Setting.ini",QSettings::IniFormat);
     configFile1=new QSettings(".\\Lens-Ring\\Temporary_File.ini",QSettings::IniFormat);
     memset(rotation,0,sizeof (double) *10);//fill specific value and its size to a memory
@@ -24,6 +25,7 @@ Running::Running()
 
 Running::~Running()
 {
+    cap->deleteLater();
     configFile->deleteLater();
     configFile1->deleteLater();
 }
@@ -51,7 +53,7 @@ void Running::run()
         {
             qDebug()<<"rotation running start.";
             rotation_running=true;
-            msleep(1500);
+            msleep(2500);
             rise_edge1=false;
             while(index!=total_position)//"status" is to describe the image detection result.
             {
@@ -66,9 +68,7 @@ void Running::run()
                 single_axis_check_done(0,rotation[index]);
                 Sleep(200);
                 detection_number=index;
-                while(detection==1)
-                {}
-                detection=1;
+                Inspection_image1(cap->ho_Image1);
                 index++;
             }
             single_origin_back(0);
@@ -296,9 +296,10 @@ void Running::single_axis_action_absolute(short axis, long pulse)
 }
 
 ////image detection functions
-void Running::slot_detection_image1(HObject image)
+void Running::Inspection_image1(HObject image)
 {
     //variable define
+    HObject inspect_image;
     HObject ho_ImageMedian,RegionMoved;
     HObject ho_ThresholdRegion, ho_ConnectedRegions,ho_SelectedRegions;
     HObject ImageDetect,DetectionRegion,ImageSub,RegionSub;
@@ -307,7 +308,8 @@ void Running::slot_detection_image1(HObject image)
     HTuple hv_Row1, hv_Column1, hv_Angle1, hv_Score1, Scale1;
     HTuple HomMat2D;
     //preprocess
-    MedianImage(image,&ho_ImageMedian,"circle",2,"mirrored");
+    CopyImage(image,&inspect_image);
+    MedianImage(inspect_image,&ho_ImageMedian,"circle",2,"mirrored");
     if(detection_number>=0)
     {
         qDebug()<<"image detection 1 (rotatation)";
@@ -315,12 +317,13 @@ void Running::slot_detection_image1(HObject image)
         //image detection
         AreaCenter(*(Region.begin()+detection_number),&Area,&Row,&Column);
         MoveRegion(*(Region.begin()+detection_number),&RegionMoved,-Row,-Column);
-        FindScaledShapeModel(ho_ImageMedian, *(MODEL.begin()+detection_number), 0, 6.29, 0.1, 10, 0.5, 1, 0.5, "least_squares",
+        FindScaledShapeModel(ho_ImageMedian, *(MODEL.begin()+detection_number), 0, 6.29, 0.1, 10, 0.2, 1, 0.5, "least_squares",
             0, 0.9, &hv_Row1, &hv_Column1, &hv_Angle1, &Scale1, &hv_Score1);
         if(hv_Score1.Length()<=0)
         {
             Interruption=true;
             difference1=0;
+            qDebug()<<"Cannot find shape model";
             emit signal_disp_result(1,2);
             return;
         }
@@ -374,7 +377,7 @@ void Running::slot_detection_image1(HObject image)
         qDebug()<<"image detection 1 no rotation";
         AreaCenter(*(Region.begin()),&Area,&Row,&Column);
         MoveRegion(*(Region.begin()),&RegionMoved,-Row,-Column);
-        FindScaledShapeModel(ho_ImageMedian, *(MODEL.begin()), 0, 6.29, 0.1, 10, 0.5, 1, 0.5, "least_squares",
+        FindScaledShapeModel(ho_ImageMedian, *(MODEL.begin()), 0, 6.29, 0.1, 10, 0.2, 1, 0.5, "least_squares",
             0, 0.9, &hv_Row1, &hv_Column1, &hv_Angle1, &Scale1, &hv_Score1);
         if(hv_Score1.Length()<=0)
         {          
@@ -408,7 +411,7 @@ void Running::slot_detection_image1(HObject image)
     }
 }
 
-void Running::slot_detection_image2(HObject image)
+void Running::Inspection_image2(HObject image)
 {
     qDebug()<<"image detection 2";
     model_path[1];
