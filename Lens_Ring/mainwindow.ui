@@ -186,6 +186,9 @@ background-color: rgb(164, 205, 106);</string>
     <property name="text">
      <string>加载模板</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">Control_Buttons</string>
+    </attribute>
    </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
@@ -263,6 +266,9 @@ background-color: rgb(164, 205, 106);</string>
     <property name="text">
      <string>加载模板</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">Control_Buttons</string>
+    </attribute>
    </widget>
    <widget class="QPushButton" name="load_model_3">
     <property name="geometry">
@@ -276,6 +282,9 @@ background-color: rgb(164, 205, 106);</string>
     <property name="text">
      <string>加载模板</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">Control_Buttons</string>
+    </attribute>
    </widget>
    <widget class="QLabel" name="disp_path3">
     <property name="geometry">
@@ -353,6 +362,9 @@ background-color: rgb(164, 205, 106);</string>
     <property name="text">
      <string>加载模板</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">Control_Buttons</string>
+    </attribute>
    </widget>
    <widget class="QPushButton" name="load_model_5">
     <property name="geometry">
@@ -366,6 +378,9 @@ background-color: rgb(164, 205, 106);</string>
     <property name="text">
      <string>加载模板</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">Control_Buttons</string>
+    </attribute>
    </widget>
    <widget class="QLabel" name="disp_path5">
     <property name="geometry">
@@ -427,6 +442,9 @@ background-color: rgb(164, 205, 106);</string>
     <property name="text">
      <string>加载模板</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">Control_Buttons</string>
+    </attribute>
    </widget>
    <widget class="QLabel" name="disp_path6">
     <property name="geometry">
@@ -488,6 +506,9 @@ background-color: rgb(164, 205, 106);</string>
     <property name="text">
      <string>加载模板</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">Control_Buttons</string>
+    </attribute>
    </widget>
    <widget class="QPushButton" name="load_model_8">
     <property name="geometry">
@@ -501,6 +522,9 @@ background-color: rgb(164, 205, 106);</string>
     <property name="text">
      <string>加载模板</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">Control_Buttons</string>
+    </attribute>
    </widget>
    <widget class="QLabel" name="disp_path8">
     <property name="geometry">
@@ -562,6 +586,9 @@ background-color: rgb(164, 205, 106);</string>
     <property name="text">
      <string>加载模板</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">Control_Buttons</string>
+    </attribute>
    </widget>
    <widget class="QLabel" name="disp_path9">
     <property name="geometry">
@@ -623,6 +650,9 @@ background-color: rgb(164, 205, 106);</string>
     <property name="text">
      <string>加载模板</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">Control_Buttons</string>
+    </attribute>
    </widget>
    <widget class="Line" name="line">
     <property name="geometry">
@@ -752,6 +782,26 @@ background-color: rgb(164, 205, 106);</string>
     </property>
     <property name="orientation">
      <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Part_Num">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>400</y>
+      <width>201</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 14pt &quot;黑体&quot;;
+background-color: rgb(164, 205, 106);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>

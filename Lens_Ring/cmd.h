@@ -10,6 +10,7 @@
 #include <QMessageBox>
 
 #include "Dmc1000.h"
+#include "ic_capture.h"
 
 namespace Ui {
 class CMD;
@@ -24,12 +25,14 @@ public:
     ~CMD();
 
     QSettings *configFile;
+    IC_Capture *cap;
 
     long StrVel=0;
     long MaxVel=0;
     double Tacc=0;
 
     void disp_parameters();
+    QString select_path();
 
 private slots:
 
@@ -61,6 +64,8 @@ private slots:
     void on_Clockwise_clicked();
 
     void on_Create_Model1_clicked();
+
+    void on_Create_Model2_clicked();
 
 private:
     Ui::CMD *ui;

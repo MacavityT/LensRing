@@ -26,6 +26,7 @@ CMD::CMD(QWidget *parent) :
 CMD::~CMD()
 {
     delete ui;
+    //delete configure file
     configFile->deleteLater();
 }
 
@@ -138,4 +139,46 @@ void CMD::on_Clockwise_clicked()
 
 void CMD::on_Create_Model1_clicked()
 {
+    //Create shape model
+
+    QString tmp=select_path();
+    if(tmp=="Error")
+    {
+        QMessageBox::information(this,tr("Warning"),tr("Create Model Failed!"),tr("OK"),0);
+        return;
+    }
+    //Write shape model
+}
+
+void CMD::on_Create_Model2_clicked()
+{
+    //unite all the input regions "union1"
+    //Create shape model
+
+    QString tmp=select_path();
+    if(tmp=="Error")
+    {
+        QMessageBox::information(this,tr("Warning"),tr("Create Model Failed!"),tr("OK"),0);
+        return;
+    }
+    //Write shape model
+}
+
+QString CMD::select_path()
+{
+    QFileDialog *fileDialog=new QFileDialog(this);
+    QString filename =fileDialog->getSaveFileName(this,tr("Model name"),"",tr("Images(*.png *.jpg *.jpeg *.bmp)"));
+    //define fileDialog title
+    fileDialog->setWindowTitle(tr("保存图片"));
+    //set default path
+    fileDialog->setDirectory("./");
+    if(filename.isEmpty())
+    {
+        return "Error";
+    }
+    else
+    {
+        qDebug()<<filename;
+        return filename;
+    }
 }

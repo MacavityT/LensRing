@@ -53,18 +53,22 @@ MainWindow::MainWindow(QWidget *parent) :
     sen=new Sensor;
 
     //connect
-    connect(this,SIGNAL(signal_action_enable(bool)),ic_cap,SLOT(slot_action_enable(bool)));
-
     connect(ic_cap,SIGNAL(signal_open_Camera(bool)),this,SLOT(slot_open_Camera(bool)));
-
-    //set button enable
-    QList<QAbstractButton*> list=ui->Control_Buttons->buttons();
-    QList<QAbstractButton*>::iterator i;
-    for(i=list.begin();i!=list.end();++i)
+    connect(ic_cap,SIGNAL(signal_disp_image1(HObject)),this,SLOT(slot_disp_image1(HObject)));
+    connect(ic_cap,SIGNAL(signal_disp_image2(HObject)),this,SLOT(slot_disp_image2(HObject)));
+    //connect all the buttons with enable function
+    QList<QAction *> select_part=ui->menu_2->actions();
+    QList<QAction *>::iterator iter;
+    for(iter=select_part.begin();iter!=select_part.end();++iter)
     {
-        QAbstractButton *temporary_button=*i;
-        temporary_button->setEnabled(false);
+        QAction *action=*iter;
+        //if the action is checkable,
+        //checked is true if the action is checked, or false if the action is unchecked.
+        connect(action,SIGNAL(triggered(bool)),SLOT(lock_all_buttons(bool)));
     }
+
+
+    lock_all_buttons(true);//true is to lock all buttons
 //initialization the card and it's parameters
     ControlCard_Initialization();
     disp_path();
@@ -250,6 +254,9 @@ void MainWindow::on_actionCMD_triggered()
     NewDialog->setAttribute(Qt::WA_DeleteOnClose);//let the dialog auto delete when click the X.
     NewDialog->setAttribute(Qt::WA_QuitOnClose,false);//let the dialog close with mianwindow exit.
     NewDialog->show();
+    //set static variable "cam_cap" to true
+    //when the variable is true,mainwindow display process will be cut off
+    ic_cap->cmd_cap=true;
 }
 
 void MainWindow::on_actionPMD_triggered()
@@ -270,18 +277,23 @@ void MainWindow::on_actionMODEL_triggered()
 
 void MainWindow::on_START_clicked()
 {
-    emit signal_action_enable(true);
+    ic_cap->action_enable=true;
     if(First_Start)
     {
         First_Start=false;
-        ALL_Origin_Back();
     }
     //move to position of detection
 }
 
 void MainWindow::on_PAUSE_clicked()
 {
-
+    for(int i=0;i<3;i++)
+    {
+        if(d1000_check_done(i)==0)
+        {
+            d1000_immediate_stop(i);
+        }
+    }
 }
 
 void MainWindow::on_RESUME_clicked()
@@ -291,7 +303,14 @@ void MainWindow::on_RESUME_clicked()
 
 void MainWindow::on_STOP_clicked()
 {
-
+    ic_cap->action_enable=false;
+    for(int i=0;i<3;i++)
+    {
+        if(d1000_check_done(i)==0)
+        {
+            d1000_immediate_stop(i);
+        }
+    }
 }
 
 void MainWindow::on_RESET_clicked()
@@ -299,6 +318,17 @@ void MainWindow::on_RESET_clicked()
 
 }
 
+void MainWindow::lock_all_buttons(bool YN)
+{
+    //set button enable
+    QList<QAbstractButton*> list=ui->Control_Buttons->buttons();
+    QList<QAbstractButton*>::iterator i;
+    for(i=list.begin();i!=list.end();++i)
+    {
+        QAbstractButton *temporary_button=*i;
+        temporary_button->setEnabled(!YN);
+    }
+}
 
 
 //////////Control Card Function
@@ -328,15 +358,15 @@ void MainWindow::ALL_Origin_Back()
 
 ///////////Image detection function
 
-void MainWindow::slot_disp_image(HObject image)
+void MainWindow::slot_disp_image1(HObject image)
 {
 }
 
-void MainWindow::slot_disp_image1(HObject image)
-{}
-
-void MainWindow::slot_detection_image(HObject image)
+void MainWindow::slot_disp_image2(HObject image)
 {}
 
 void MainWindow::slot_detection_image1(HObject image)
+{}
+
+void MainWindow::slot_detection_image2(HObject image)
 {}

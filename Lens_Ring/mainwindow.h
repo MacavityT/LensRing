@@ -48,16 +48,17 @@ public:
     void ControlCard_Initialization();
     void ALL_Origin_Back();
 
-
 signals:
     void signal_action_enable(bool);
 
 public slots:
     void slot_open_Camera(bool);
-    void slot_disp_image(HObject);
     void slot_disp_image1(HObject);
-    void slot_detection_image(HObject);
+    void slot_disp_image2(HObject);
     void slot_detection_image1(HObject);
+    void slot_detection_image2(HObject);
+
+    void lock_all_buttons(bool);
 
 private slots:
     void on_actionCMD_triggered();

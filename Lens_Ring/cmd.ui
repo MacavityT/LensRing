@@ -333,8 +333,8 @@
     <rect>
      <x>70</x>
      <y>30</y>
-     <width>431</width>
-     <height>311</height>
+     <width>430</width>
+     <height>310</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -353,8 +353,8 @@ background-color: rgb(164, 205, 106);</string>
     <rect>
      <x>70</x>
      <y>390</y>
-     <width>431</width>
-     <height>311</height>
+     <width>430</width>
+     <height>310</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -546,6 +546,90 @@ background-color: rgb(164, 205, 106);</string>
     <string notr="true">CMD_Button</string>
    </attribute>
   </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>69</x>
+     <y>350</y>
+     <width>91</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 14pt &quot;Adobe 黑体 Std R&quot;;</string>
+   </property>
+   <property name="text">
+    <string>工具选项</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="rectangle1_tool">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>350</y>
+     <width>60</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>矩形</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="circle_tool">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>350</y>
+     <width>60</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>圆</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ellipse_tool">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>350</y>
+     <width>60</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>椭圆</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="rectangle2_tool">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>350</y>
+     <width>60</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>旋转矩形</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="free_tool">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>350</y>
+     <width>60</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>任意区域</string>
+   </property>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>Create_Model1</tabstop>
@@ -566,6 +650,11 @@ background-color: rgb(164, 205, 106);</string>
   <tabstop>Clockwise</tabstop>
   <tabstop>Camera2_up_2</tabstop>
   <tabstop>Camera2_down_2</tabstop>
+  <tabstop>circle_tool</tabstop>
+  <tabstop>ellipse_tool</tabstop>
+  <tabstop>rectangle1_tool</tabstop>
+  <tabstop>rectangle2_tool</tabstop>
+  <tabstop>free_tool</tabstop>
  </tabstops>
  <resources/>
  <connections/>
