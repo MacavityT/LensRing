@@ -12,6 +12,7 @@ CMD::CMD(QWidget *parent) :
     GenEmptyObj(&ho_Region);
     configFile=new QSettings(".\\Lens-Ring\\Temporary_File.ini",QSettings::IniFormat);
     cap=new IC_Capture;
+    light=new QSerialPort;
 // let the buttons of commissing be auto-repeat
     QList<QAbstractButton*> list=ui->CMD_Button->buttons();
     QList<QAbstractButton*>::iterator i;
@@ -30,6 +31,14 @@ CMD::CMD(QWidget *parent) :
     //initializer the speed
     on_LOW_SPEED_clicked();
     disp_parameters();
+    if(light->open(QIODevice::ReadWrite))
+    {
+        light->setBaudRate(9600);
+        light->setDataBits(QSerialPort::Data8);
+        light->setParity(QSerialPort::NoParity);
+        light->setFlowControl(QSerialPort::NoFlowControl);
+        light->setStopBits(QSerialPort::OneStop);
+    }
     //set static variable "cam_cap" to true
     //when the variable is true,mainwindow display process will be cut off
     cap->cmd_cap=true;
@@ -46,6 +55,7 @@ CMD::~CMD()
     cap->deleteLater();
     //delete configure file
     configFile->deleteLater();
+    light->deleteLater();
 }
 
 void CMD::mouseMoveEvent(QMouseEvent *event)
@@ -198,7 +208,8 @@ void CMD::slot_disp_image1(HObject ic)
         GetImageSize(ic, &hv_Width, &hv_Height);
         SetWindowAttr("background_color","black");
         Hlong winID= this->winId();
-        OpenWindow(20,60,430,310,winID,"visible","",&hv_WindowHandle1);
+        OpenWindow(30,70,430,310,winID,"visible","",&hv_WindowHandle1);
+        SetPart(hv_WindowHandle1, 0, 0, hv_Height, hv_Width);
         first_open1=false;
         qDebug()<<"call cmd open window 1";
     }
@@ -216,7 +227,8 @@ void CMD::slot_disp_image2(HObject ic)
         GetImageSize(ic, &hv_Width, &hv_Height);
         SetWindowAttr("background_color","black");
         Hlong winID= this->winId();
-        OpenWindow(20,400,430,310,winID,"visible","",&hv_WindowHandle2);
+        OpenWindow(390,70,430,310,winID,"visible","",&hv_WindowHandle2);
+        SetPart(hv_WindowHandle2, 0, 0, hv_Height, hv_Width);
         first_open2=false;
     }
     HDevWindowStack::Push(hv_WindowHandle2);

@@ -9,6 +9,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QMouseEvent>
+#include <QSerialPort>
+#include <QSerialPortInfo>
 
 #include "HalconCpp.h"
 #include "Dmc1000.h"
@@ -35,6 +37,9 @@ public:
 
     QSettings *configFile;
     IC_Capture *cap;
+    QSerialPort *light;
+
+    char send_data[4];
 
     bool first_open1=true;
     bool first_open2=true;

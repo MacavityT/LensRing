@@ -9,7 +9,12 @@
 #include <QList>
 #include <QFileDialog>
 #include <QSettings>
-#include<QMetaType>
+#include <QMetaType>
+#include <QSerialPort>//if not add "QT += serialport",can't use in this way
+#include <QSerialPortInfo>
+#include <QIODevice>
+#include <QSql>//need to add "QT += sql" in .pro file
+#include <QSqlDatabase>
 
 #include "Dmc1000.h"
 #include "HalconCpp.h"

@@ -17,13 +17,17 @@ Running::~Running()
 
 void Running::run()
 {
-
+    while(reset_finished)
+    {
+        //rotation
+    }
 }
 
 
 ////initial parameters
 void Running::get_config_param(int num)
 {
+    //get detection position
     QString index=num+'0';
     QString x;
     camera[0]=configFile->value("Detection_Position/part"+index+"_camera1").toDouble();
@@ -41,6 +45,15 @@ void Running::get_config_param(int num)
         rotation[i-1]=configFile->value("Detection_Position/part"+index+"_rotation"+x).toDouble();
 //        qDebug()<<"Detection_Position/part"+index+"_rotation"+x;
     }    
+    //get running speed
+    QString axis;
+    for(int axis_index=0;axis_index<=2;axis_index++)
+    {
+        axis=axis_index+'0';
+        speed_set[axis_index][0]=configFile->value("Running_Speed/Speed_Initial"+axis).toDouble();
+        speed_set[axis_index][1]=configFile->value("Running_Speed/Speed_Set"+axis).toDouble();
+        speed_set[axis_index][2]=configFile->value("Running_Speed/Acceleration"+axis).toDouble();
+    }
 }
 
 void Running::slot_read_model(int i)
@@ -75,5 +88,6 @@ void Running::read_all_model()
 void Running::slot_reset()
 {
     //origin back process
+    //move to detection position
     reset_finished=true;
 }

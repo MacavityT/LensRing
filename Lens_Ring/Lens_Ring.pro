@@ -67,3 +67,6 @@ DEPENDPATH += $$PWD/.
 
 win32:!win32-g++: PRE_TARGETDEPS += $$PWD/./Dmc1000.lib
 else:win32-g++: PRE_TARGETDEPS += $$PWD/./libDmc1000.a
+
+QT += serialport \
+      sql

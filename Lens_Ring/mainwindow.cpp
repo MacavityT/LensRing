@@ -53,6 +53,20 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    //All sql drivers output
+    qDebug()<<"drivers:";
+    QStringList drivers=QSqlDatabase::drivers();
+    foreach(QString driver,drivers)  //遍历所支持的数据库驱动
+        qDebug()<<driver;
+    //Qt serial information output.
+    foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts())
+    {
+        qDebug() << "Name : " << info.portName();
+        qDebug() << "Description : " << info.description();
+        qDebug() << "Manufacturer: " << info.manufacturer();
+        qDebug() << "Serial Number: " << info.serialNumber();
+        qDebug() << "System Location: " << info.systemLocation();
+    }
     //initializer the program
     ui->setupUi(this);
     setWindowTitle(tr("Control System"));
@@ -85,6 +99,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this,SIGNAL(signal_read_model(int)),run,SLOT(slot_read_model(int)));
     connect(this,SIGNAL(signal_reset()),run,SLOT(slot_reset()));
 
+    //set progressbar
+    ui->progressBar->setMinimum(0);
+    ui->progressBar->setMaximum(100);
+    ui->progressBar->setValue(0);
+    ui->progressBar->setFormat("检测进度：%p%");
+    //control buttons
     lock_all_buttons(true);//true is to lock all buttons
 //initialization the card and it's parameters
     ControlCard_Initialization();
@@ -92,7 +112,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ic_cap->start();
     if(board_initialization)
     {
-        run->start();        
+        run->start();
     }
 }
 
@@ -512,7 +532,8 @@ void MainWindow::slot_disp_image1(HObject image)
         GetImageSize(image, &hv_Width, &hv_Height);
         SetWindowAttr("background_color","black");
         Hlong winID= this->winId();
-        OpenWindow(70,50,430,310,winID,"visible","",&hv_WindowHandle1);
+        OpenWindow(85,70,430,310,winID,"visible","",&hv_WindowHandle1);
+        SetPart(hv_WindowHandle1, 0, 0, hv_Height, hv_Width);
         First_OpenWindow1=false;
     }
     HDevWindowStack::Push(hv_WindowHandle1);
@@ -528,7 +549,8 @@ void MainWindow::slot_disp_image2(HObject image)
         GetImageSize(image, &hv_Width, &hv_Height);
         SetWindowAttr("background_color","black");
         Hlong winID= this->winId();
-        OpenWindow(20,800,430,310,winID,"visible","",&hv_WindowHandle2);
+        OpenWindow(85,850,430,310,winID,"visible","",&hv_WindowHandle2);
+        SetPart(hv_WindowHandle2, 0, 0, hv_Height, hv_Width);
         First_OpenWindow2=false;
     }
     HDevWindowStack::Push(hv_WindowHandle2);

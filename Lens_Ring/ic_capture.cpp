@@ -47,6 +47,7 @@ void IC_Capture::run()
     while(1)
     {
         GrabImageAsync(&ho_Image1, hv_AcqHandle1, -1);
+        ZoomImageSize(ho_Image1, &ho_Image1, 430, 310, "bilinear");
 //        GrabImageAsync(&ho_Image2, hv_AcqHandle2, -1);
         if(action_enable)
         {
