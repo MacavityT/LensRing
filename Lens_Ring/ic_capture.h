@@ -1,4 +1,4 @@
-#ifndef IC_CAPTURE_H
+﻿#ifndef IC_CAPTURE_H
 #define IC_CAPTURE_H
 #include <QThread>
 #include <QDebug>
@@ -17,7 +17,7 @@ public:
     void run();
 
     //Halcon variable
-    HObject  ho_Image1,ho_Image2;
+    static HObject  ho_Image1,ho_Image2;
     HTuple  hv_AcqHandle1,hv_AcqHandle2;
 
     static bool action_enable;

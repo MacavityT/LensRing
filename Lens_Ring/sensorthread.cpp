@@ -22,8 +22,11 @@ void SensorThread::run()
         sensor1_present=!d1000_in_bit(5);
         if(sensor1_present-sensor1_previous==1)
         {
-            running->rise_edge1=true;
-            qDebug()<<"rise edge1:true";
+            if(!running->rotation_running)
+            {
+                running->rise_edge1=true;
+                qDebug()<<"rise edge1:true";
+            }
         }
         sensor1_previous=sensor1_present;
         //plane sensor

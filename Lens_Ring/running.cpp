@@ -1,4 +1,4 @@
-#include "running.h"
+﻿#include "running.h"
 #include <QDebug>
 
 bool Running::pause=false;
@@ -6,6 +6,7 @@ bool Running::resume=false;
 bool Running::stop=false;
 bool Running::rise_edge1=false;
 bool Running::rise_edge2=false;
+bool Running::rotation_running=false;
 bool Running::reset_start=false;
 bool Running::move_to_detection_position_start=false;
 int Running::detection=0;
@@ -48,6 +49,9 @@ void Running::run()
         ///single camera(1) is used
         if(total_position!=0&&detection==0&&rise_edge1&&reset_finished&&detection_position_arrive)
         {
+            qDebug()<<"rotation running start.";
+            rotation_running=true;
+            msleep(1500);
             rise_edge1=false;
             while(index!=total_position)//"status" is to describe the image detection result.
             {
@@ -55,6 +59,7 @@ void Running::run()
                 {
                     d1000_immediate_stop(0);
                     Interruption=false;
+                    qDebug()<<"rotation running interruption";
                     break;
                 }
                 single_axis_action_absolute(0,rotation[index]);
@@ -68,6 +73,7 @@ void Running::run()
             }
             single_origin_back(0);
             index=0;
+            rotation_running=false;
         }
         ///single camera(2) is used
         if(total_position==0&&detection==0&&rise_edge2&&model_number==1&&\
@@ -241,6 +247,7 @@ void Running::move_to_detection_position()
     all_axis_check_done();
     detection_position_arrive=true;
     emit signal_lock_all_buttons(false);
+    qDebug()<<"Move to detection position finished";
 }
 
 void Running::all_axis_check_done()
@@ -292,19 +299,15 @@ void Running::single_axis_action_absolute(short axis, long pulse)
 void Running::slot_detection_image1(HObject image)
 {
     //variable define
-    HObject ho_ImageMedian,RegionAffineTrans,RegionMoved;
+    HObject ho_ImageMedian,RegionMoved;
     HObject ho_ThresholdRegion, ho_ConnectedRegions,ho_SelectedRegions;
     HObject ImageDetect,DetectionRegion,ImageSub,RegionSub;
-//    HTuple HomMat2DIdentity,HomMat2DScale;
     HTuple Area, Row, Column;
     HTuple AreaSub,RowSub,ColumnSub;
     HTuple hv_Row1, hv_Column1, hv_Angle1, hv_Score1, Scale1;
     HTuple HomMat2D;
     //preprocess
     MedianImage(image,&ho_ImageMedian,"circle",2,"mirrored");
-//    HomMat2dIdentity(&HomMat2DIdentity);
-//    HomMat2dScale(HomMat2DIdentity,2,2,0,0,&HomMat2DScale);
-//    AffineTransRegion(*(Region.begin()+detection_number),&RegionAffineTrans,HomMat2DScale,"nearest_neighbor");
     if(detection_number>=0)
     {
         qDebug()<<"image detection 1 (rotatation)";
@@ -340,6 +343,7 @@ void Running::slot_detection_image1(HObject image)
         {
             if(difference1>=limit)
             {
+                qDebug()<<"NG and difference 1 ="<<difference1;
                 Interruption=true;
                 difference1=0;
                 emit signal_disp_result(1,2);
@@ -354,10 +358,12 @@ void Running::slot_detection_image1(HObject image)
             if(difference1<limit)
             {
                 emit signal_disp_result(1,1);
+                qDebug()<<"OK and difference 1 ="<<difference1;
             }
             else
             {
                 emit signal_disp_result(1,2);
+                qDebug()<<"NG and difference 1 ="<<difference1;
             }
             difference1=0;
         }
@@ -371,8 +377,7 @@ void Running::slot_detection_image1(HObject image)
         FindScaledShapeModel(ho_ImageMedian, *(MODEL.begin()), 0, 6.29, 0.1, 10, 0.5, 1, 0.5, "least_squares",
             0, 0.9, &hv_Row1, &hv_Column1, &hv_Angle1, &Scale1, &hv_Score1);
         if(hv_Score1.Length()<=0)
-        {
-            Interruption=true;
+        {          
             difference1=0;
             emit signal_disp_result(1,2);
             return;

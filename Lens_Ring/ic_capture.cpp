@@ -1,5 +1,7 @@
-#include "ic_capture.h"
+﻿#include "ic_capture.h"
 
+HObject IC_Capture::ho_Image1;
+HObject IC_Capture::ho_Image2;
 bool IC_Capture::cmd_cap=false;
 bool IC_Capture::cmd_cut=false;
 bool IC_Capture::action_enable=true;

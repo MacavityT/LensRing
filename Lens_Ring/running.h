@@ -1,12 +1,17 @@
-#ifndef Running_H
+﻿#ifndef Running_H
 #define Running_H
 #include <QThread>
 #include <QSettings>
 #include <QDebug>
+#include <QMutex>
+#include <QMutexLocker>
 #include "Dmc1000.h"
 #include "HalconCpp.h"
 
 using namespace HalconCpp;
+struct ThreadControl{
+    QMutex mutex;
+};
 
 class Running:public QThread
 {
@@ -22,6 +27,7 @@ public:
     static bool stop;
     static bool rise_edge1;
     static bool rise_edge2;
+    static bool rotation_running;
     static int detection;
     static bool reset_start;
     static bool move_to_detection_position_start;
