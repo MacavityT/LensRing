@@ -36,6 +36,7 @@
 
 
 //                          神兽护体！永无BUG!
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -49,6 +50,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ic_cap=new IC_Capture;
     sen=new Sensor;
+
+    //connect
+    connect(this,SIGNAL(signal_action_enable(bool)),ic_cap,SLOT(slot_action_enable(bool)));
+
+    connect(ic_cap,SIGNAL(signal_open_Camera(bool)),this,SLOT(slot_open_Camera(bool)));
+
 //initialization the card and it's parameters
     ControlCard_Initialization();
     if(board_initialization)
@@ -128,4 +135,35 @@ void MainWindow::ControlCard_Initialization()
     {
        d1000_set_pls_outmode(k,1);//pulse and direction
     }
+}
+
+
+void MainWindow::slot_open_Camera(bool y_n)
+{
+    qDebug()<<"display error messages";
+    if(y_n)
+    {
+        ui->statusBar->showMessage(tr("打开相机成功"));
+    }
+    else
+    {
+        ui->statusBar->showMessage(tr("打开相机失败"));
+    }
+}
+
+void MainWindow::slot_disp_image(HObject image)
+{
+}
+
+void MainWindow::slot_disp_image1(HObject image)
+{}
+
+void MainWindow::on_START_clicked()
+{
+    emit signal_action_enable(true);
+    if(First_Start)
+    {
+        //origin back
+    }
+    //move to position of detection
 }

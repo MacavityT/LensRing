@@ -2,7 +2,6 @@
 
 Sensor::Sensor()
 {
-
 }
 
 Sensor::~Sensor()

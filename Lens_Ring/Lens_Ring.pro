@@ -45,6 +45,17 @@ FORMS += \
     model.ui
 
 
+#头文件路径包含
+
+INCLUDEPATH += G:/HALCON/include
+
+INCLUDEPATH += G:/HALCON/include/halconcpp
+
+#lib文件路径包含
+
+LIBS += G:/HALCON/lib/x64-win64/halcon.lib
+
+LIBS += G:/HALCON/lib/x64-win64/halconcpp.lib
 
 win32: LIBS += -L$$PWD/./ -lDmc1000
 

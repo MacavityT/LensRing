@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QSettings>
+#include <QList>
 
 namespace Ui {
 class CMD;
@@ -15,6 +16,19 @@ class CMD : public QDialog
 public:
     explicit CMD(QWidget *parent = 0);
     ~CMD();
+
+private slots:
+    void on_Camera1_up_clicked();
+
+    void on_Camera1_down_clicked();
+
+    void on_Camera2_up_clicked();
+
+    void on_Camera2_down_clicked();
+
+    void on_Anticlockwise_clicked();
+
+    void on_Clockwise_clicked();
 
 private:
     Ui::CMD *ui;

@@ -16,8 +16,8 @@
   <widget class="QLineEdit" name="lineEdit">
    <property name="geometry">
     <rect>
-     <x>387</x>
-     <y>230</y>
+     <x>157</x>
+     <y>50</y>
      <width>113</width>
      <height>20</height>
     </rect>
@@ -26,8 +26,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>230</y>
+     <x>60</x>
+     <y>50</y>
      <width>71</width>
      <height>20</height>
     </rect>
@@ -39,8 +39,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>287</x>
-     <y>290</y>
+     <x>57</x>
+     <y>110</y>
      <width>71</width>
      <height>20</height>
     </rect>
@@ -52,8 +52,8 @@
   <widget class="QLineEdit" name="lineEdit_2">
    <property name="geometry">
     <rect>
-     <x>384</x>
-     <y>290</y>
+     <x>154</x>
+     <y>110</y>
      <width>113</width>
      <height>20</height>
     </rect>
@@ -62,8 +62,8 @@
   <widget class="QLineEdit" name="lineEdit_3">
    <property name="geometry">
     <rect>
-     <x>387</x>
-     <y>340</y>
+     <x>157</x>
+     <y>160</y>
      <width>113</width>
      <height>20</height>
     </rect>
@@ -72,8 +72,8 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>340</y>
+     <x>60</x>
+     <y>160</y>
      <width>71</width>
      <height>20</height>
     </rect>
@@ -82,7 +82,163 @@
     <string>初始速度</string>
    </property>
   </widget>
+  <widget class="QToolButton" name="Camera1_down">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>280</y>
+     <width>37</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>...</string>
+   </property>
+   <property name="arrowType">
+    <enum>Qt::DownArrow</enum>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">CMD_Button</string>
+   </attribute>
+  </widget>
+  <widget class="QToolButton" name="Camera1_up">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>240</y>
+     <width>37</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>...</string>
+   </property>
+   <property name="arrowType">
+    <enum>Qt::UpArrow</enum>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">CMD_Button</string>
+   </attribute>
+  </widget>
+  <widget class="QToolButton" name="Camera2_up">
+   <property name="geometry">
+    <rect>
+     <x>710</x>
+     <y>240</y>
+     <width>37</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>...</string>
+   </property>
+   <property name="arrowType">
+    <enum>Qt::UpArrow</enum>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">CMD_Button</string>
+   </attribute>
+  </widget>
+  <widget class="QToolButton" name="Camera2_down">
+   <property name="geometry">
+    <rect>
+     <x>710</x>
+     <y>280</y>
+     <width>37</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>...</string>
+   </property>
+   <property name="arrowType">
+    <enum>Qt::DownArrow</enum>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">CMD_Button</string>
+   </attribute>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>210</y>
+     <width>54</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>上下</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>210</y>
+     <width>54</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>左右</string>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="Clockwise">
+   <property name="geometry">
+    <rect>
+     <x>810</x>
+     <y>280</y>
+     <width>37</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>...</string>
+   </property>
+   <property name="arrowType">
+    <enum>Qt::RightArrow</enum>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">CMD_Button</string>
+   </attribute>
+  </widget>
+  <widget class="QToolButton" name="Anticlockwise">
+   <property name="geometry">
+    <rect>
+     <x>810</x>
+     <y>240</y>
+     <width>37</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>...</string>
+   </property>
+   <property name="arrowType">
+    <enum>Qt::LeftArrow</enum>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">CMD_Button</string>
+   </attribute>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>820</x>
+     <y>210</y>
+     <width>54</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>旋转</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="CMD_Button"/>
+ </buttongroups>
 </ui>

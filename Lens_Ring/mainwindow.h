@@ -8,10 +8,13 @@
 #include<QMetaType>
 
 #include "Dmc1000.h"
+#include "HalconCpp.h"
 #include "cmd.h"
 #include "sensor.h"
 #include "model.h"
 #include "ic_capture.h"
+
+using namespace HalconCpp;
 
 namespace Ui {
 class MainWindow;
@@ -30,14 +33,26 @@ public:
     Sensor *sen;
 //variable define
     bool board_initialization=true;
+    bool First_Start=true;
 //function define
     void closeEvent(QCloseEvent *);
     void ControlCard_Initialization();
+
+
+signals:
+    void signal_action_enable(bool);
+
+public slots:
+    void slot_open_Camera(bool);
+    void slot_disp_image(HObject);
+    void slot_disp_image1(HObject);
 
 private slots:
     void on_actionCMD_triggered();
 
     void on_actionMODEL_triggered();
+
+    void on_START_clicked();
 
 private:
     Ui::MainWindow *ui;
