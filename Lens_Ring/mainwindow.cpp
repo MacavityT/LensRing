@@ -45,8 +45,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     //initializer the program
     ui->setupUi(this);
+    setWindowTitle(tr("Control System"));
     qRegisterMetaType<DWORD>("DWORD");
 
+    configFile=new QSettings(".\\Lens-Ring\\Temporary_File.ini",QSettings::IniFormat);
     ic_cap=new IC_Capture;
     sen=new Sensor;
 
@@ -56,9 +58,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ic_cap,SIGNAL(signal_open_Camera(bool)),this,SLOT(slot_open_Camera(bool)));
 
     //set button enable
-    ui->START->setEnabled(false);
+    QList<QAbstractButton*> list=ui->Control_Buttons->buttons();
+    QList<QAbstractButton*>::iterator i;
+    for(i=list.begin();i!=list.end();++i)
+    {
+        QAbstractButton *temporary_button=*i;
+        temporary_button->setEnabled(false);
+    }
 //initialization the card and it's parameters
     ControlCard_Initialization();
+    disp_path();
     if(board_initialization)
     {
 //        sen->start();
@@ -69,6 +78,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    //the configFile pointer
+    configFile->deleteLater();
     //sensor thread
     sen->terminate();
     sen->wait(1);
@@ -79,6 +90,126 @@ MainWindow::~MainWindow()
     ic_cap->deleteLater();
     //close the control card
     d1000_board_close();
+}
+
+/////Load Halcon Model
+QString MainWindow::load_model()
+{
+    QFileDialog *fileDialog=new QFileDialog(this);
+    fileDialog->setWindowTitle(tr("保存模板"));
+    //set defalut path
+    fileDialog->setDirectory("./");
+    //file name fliter
+    fileDialog->setNameFilter(tr("Images(*.png *.jpg *.jpeg *.bmp)"));
+    //set view mode
+    fileDialog->setViewMode(QFileDialog::Detail);
+
+//    //set the number could be selected,QFileDialog::ExistingFiles; The default is one
+//    fileDialog->setFileMode(QFileDialog::ExistingFiles);
+//    //print all file name
+//    QStringList fileNames;
+//    if(fileDialog->exec())
+//    {
+//        fileNames = fileDialog->selectedFiles();
+//    }
+//    for(auto tmp:fileNames)
+//        qDebug()<<tmp<<endl;
+
+    QStringList fileName;
+    if(fileDialog->exec())
+    {
+        fileName=fileDialog->selectedFiles();
+        QString tmp=*fileName.begin();
+        return tmp;
+    }
+    else
+    {
+        return "Empty Model";
+    }
+}
+
+void MainWindow::disp_path()
+{
+    ui->disp_path1->setText(configFile->value("Model_path/model1").toString());
+    ui->disp_path2->setText(configFile->value("Model_path/model2").toString());
+    ui->disp_path3->setText(configFile->value("Model_path/model3").toString());
+    ui->disp_path4->setText(configFile->value("Model_path/model4").toString());
+    ui->disp_path5->setText(configFile->value("Model_path/model5").toString());
+    ui->disp_path6->setText(configFile->value("Model_path/model6").toString());
+    ui->disp_path7->setText(configFile->value("Model_path/model7").toString());
+    ui->disp_path8->setText(configFile->value("Model_path/model8").toString());
+    ui->disp_path9->setText(configFile->value("Model_path/model9").toString());
+    ui->disp_path10->setText(configFile->value("Model_path/model10").toString());
+}
+
+void MainWindow::on_load_model_1_clicked()
+{
+    QString tmp=load_model();
+    ui->disp_path1->setText(tmp);
+    configFile->setValue("Model_path/model1",tmp);
+}
+
+void MainWindow::on_load_model_2_clicked()
+{
+    QString tmp=load_model();
+    ui->disp_path2->setText(tmp);
+    configFile->setValue("Model_path/model2",tmp);
+}
+
+void MainWindow::on_load_model_3_clicked()
+{
+    QString tmp=load_model();
+    ui->disp_path3->setText(tmp);
+    configFile->setValue("Model_path/model3",tmp);
+}
+
+void MainWindow::on_load_model_4_clicked()
+{
+    QString tmp=load_model();
+    ui->disp_path4->setText(tmp);
+    configFile->setValue("Model_path/model4",tmp);
+}
+
+void MainWindow::on_load_model_5_clicked()
+{
+    QString tmp=load_model();
+    ui->disp_path5->setText(tmp);
+    configFile->setValue("Model_path/model5",tmp);
+}
+
+void MainWindow::on_load_model_6_clicked()
+{
+    QString tmp=load_model();
+    ui->disp_path6->setText(tmp);
+    configFile->setValue("Model_path/model6",tmp);
+}
+
+void MainWindow::on_load_model_7_clicked()
+{
+    QString tmp=load_model();
+    ui->disp_path7->setText(tmp);
+    configFile->setValue("Model_path/model7",tmp);
+}
+
+void MainWindow::on_load_model_8_clicked()
+{
+    QString tmp=load_model();
+    ui->disp_path8->setText(tmp);
+    configFile->setValue("Model_path/model8",tmp);
+}
+
+void MainWindow::on_load_model_9_clicked()
+{
+    QString tmp=load_model();
+    ui->disp_path9->setText(tmp);
+    configFile->setValue("Model_path/model9",tmp);
+}
+
+void MainWindow::on_load_model_10_clicked()
+{
+    QString tmp=load_model();
+    ui->disp_path10->setText(tmp);
+    configFile->setValue("Model_path/model10",tmp);
 }
 
 
@@ -148,6 +279,26 @@ void MainWindow::on_START_clicked()
     //move to position of detection
 }
 
+void MainWindow::on_PAUSE_clicked()
+{
+
+}
+
+void MainWindow::on_RESUME_clicked()
+{
+
+}
+
+void MainWindow::on_STOP_clicked()
+{
+
+}
+
+void MainWindow::on_RESET_clicked()
+{
+
+}
+
 
 
 //////////Control Card Function
@@ -189,4 +340,3 @@ void MainWindow::slot_detection_image(HObject image)
 
 void MainWindow::slot_detection_image1(HObject image)
 {}
-

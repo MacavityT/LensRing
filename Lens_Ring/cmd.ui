@@ -368,7 +368,7 @@ background-color: rgb(164, 205, 106);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="Create_Model1">
    <property name="geometry">
     <rect>
      <x>510</x>
@@ -381,7 +381,7 @@ background-color: rgb(164, 205, 106);</string>
     <string>创建模板</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="Create_Model2">
    <property name="geometry">
     <rect>
      <x>510</x>
@@ -523,6 +523,9 @@ background-color: rgb(164, 205, 106);</string>
    <property name="arrowType">
     <enum>Qt::DownArrow</enum>
    </property>
+   <attribute name="buttonGroup">
+    <string notr="true">CMD_Button</string>
+   </attribute>
   </widget>
   <widget class="QToolButton" name="Camera2_up_2">
    <property name="geometry">
@@ -539,11 +542,14 @@ background-color: rgb(164, 205, 106);</string>
    <property name="arrowType">
     <enum>Qt::UpArrow</enum>
    </property>
+   <attribute name="buttonGroup">
+    <string notr="true">CMD_Button</string>
+   </attribute>
   </widget>
  </widget>
  <tabstops>
-  <tabstop>pushButton</tabstop>
-  <tabstop>pushButton_2</tabstop>
+  <tabstop>Create_Model1</tabstop>
+  <tabstop>Create_Model2</tabstop>
   <tabstop>HIGH_SPEED</tabstop>
   <tabstop>High_Speed_Initial</tabstop>
   <tabstop>HIGH_SPEED_SET</tabstop>

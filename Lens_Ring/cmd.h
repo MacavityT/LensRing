@@ -5,6 +5,9 @@
 #include <QDialog>
 #include <QSettings>
 #include <QList>
+#include <QDebug>
+#include <QFileDialog>
+#include <QMessageBox>
 
 #include "Dmc1000.h"
 
@@ -56,6 +59,8 @@ private slots:
     void on_Anticlockwise_clicked();
 
     void on_Clockwise_clicked();
+
+    void on_Create_Model1_clicked();
 
 private:
     Ui::CMD *ui;

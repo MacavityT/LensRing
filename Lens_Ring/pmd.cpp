@@ -6,7 +6,8 @@ pmd::pmd(QWidget *parent) :
     ui(new Ui::pmd)
 {
     ui->setupUi(this);
-    configFile=new QSettings(".\\Lens-Ring\\Temporary_File.ini",QSettings::IniFormat);
+    setWindowTitle(tr("参数设置"));
+    configFile=new QSettings(".\\Lens-Ring\\Parameters_Setting.ini",QSettings::IniFormat);
     disp_configure_parameter();
     lock_ui(true);
 }

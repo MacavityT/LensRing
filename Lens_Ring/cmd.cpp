@@ -6,6 +6,7 @@ CMD::CMD(QWidget *parent) :
     ui(new Ui::CMD)
 {
     ui->setupUi(this);
+    setWindowTitle(tr("运行调试"));
     configFile=new QSettings(".\\Lens-Ring\\Temporary_File.ini",QSettings::IniFormat);
 // let the buttons of commissing be auto-repeat
     QList<QAbstractButton*> list=ui->CMD_Button->buttons();
@@ -133,4 +134,8 @@ void CMD::on_Clockwise_clicked()
     d1000_start_t_move(0,50,StrVel,MaxVel,Tacc);
     QString position=QString::number(d1000_get_command_pos(0)+50);
     ui->position0->setText(position);
+}
+
+void CMD::on_Create_Model1_clicked()
+{
 }
