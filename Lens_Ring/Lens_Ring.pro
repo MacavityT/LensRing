@@ -28,7 +28,6 @@ SOURCES += \
         mainwindow.cpp \
     cmd.cpp \
     ic_capture.cpp \
-    model.cpp \
     pmd.cpp \
     running.cpp \
     sensorthread.cpp
@@ -37,7 +36,6 @@ HEADERS += \
         mainwindow.h \
     cmd.h \
     ic_capture.h \
-    model.h \
     Dmc1000.h \
     pmd.h \
     running.h \
@@ -46,7 +44,6 @@ HEADERS += \
 FORMS += \
         mainwindow.ui \
     cmd.ui \
-    model.ui \
     pmd.ui
 
 

@@ -50,6 +50,7 @@ void Running::run()
             {
                 single_axis_action_absolute(0,rotation[index]);
                 single_axis_check_done(0,rotation[index]);
+                Sleep(100);
                 detection_number=index;
                 while(detection==1)
                 {}
@@ -57,6 +58,7 @@ void Running::run()
                 index++;
             }
             single_origin_back(0);
+            index=0;
         }
         ///single camera(2) is used
         if(total_position==0&&detection==0&&rise_edge2&&model_path.length()==1&&\
@@ -259,7 +261,7 @@ void Running::slot_detection_image1(HObject image)
         //single camera 1 , need to rotate
         qDebug()<<"image detection 1 rotatation";
         model_path[detection_number];//detection_number start with 0,model ID should equal to this
-        if(detection_number!=total_position)
+        if(detection_number!=total_position-1)
         {
             emit signal_disp_result(1,3);
         }
