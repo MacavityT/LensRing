@@ -34,9 +34,11 @@ public:
 //variable define
     bool board_initialization=true;
     bool First_Start=true;
+    bool First_OpenWindow=true;
 //function define
     void closeEvent(QCloseEvent *);
     void ControlCard_Initialization();
+    void ALL_Origin_Back();
 
 
 signals:
@@ -46,6 +48,8 @@ public slots:
     void slot_open_Camera(bool);
     void slot_disp_image(HObject);
     void slot_disp_image1(HObject);
+    void slot_detection_image(HObject);
+    void slot_detection_image1(HObject);
 
 private slots:
     void on_actionCMD_triggered();

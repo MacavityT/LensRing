@@ -303,7 +303,7 @@
   <widget class="QPushButton" name="CHANGE">
    <property name="geometry">
     <rect>
-     <x>53</x>
+     <x>60</x>
      <y>620</y>
      <width>75</width>
      <height>23</height>
@@ -337,6 +337,16 @@
    </property>
    <property name="text">
     <string>确定</string>
+   </property>
+  </widget>
+  <widget class="QColumnView" name="columnView">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>320</y>
+     <width>256</width>
+     <height>192</height>
+    </rect>
    </property>
   </widget>
  </widget>

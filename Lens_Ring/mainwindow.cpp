@@ -80,6 +80,8 @@ MainWindow::~MainWindow()
     d1000_board_close();
 }
 
+
+/////UI Control function
 void MainWindow::closeEvent( QCloseEvent * event )
 {
   switch( QMessageBox::information( this, tr("Control System"),tr("Really Exit?"),\
@@ -95,6 +97,19 @@ void MainWindow::closeEvent( QCloseEvent * event )
       event->ignore();
       break;
 }
+}
+
+void MainWindow::slot_open_Camera(bool y_n)
+{
+    qDebug()<<"display error messages";
+    if(y_n)
+    {
+        ui->statusBar->showMessage(tr("打开相机成功"));
+    }
+    else
+    {
+        ui->statusBar->showMessage(tr("打开相机失败"));
+    }
 }
 
 void MainWindow::on_actionCMD_triggered()
@@ -113,10 +128,20 @@ void MainWindow::on_actionMODEL_triggered()
     NewDialog->show();
 }
 
+void MainWindow::on_START_clicked()
+{
+    emit signal_action_enable(true);
+    if(First_Start)
+    {
+        First_Start=false;
+        ALL_Origin_Back();
+    }
+    //move to position of detection
+}
 
 
-//////////
-/// \brief MainWindow::ControlCard_Initialization
+
+//////////Control Card Function
 ///
 void MainWindow::ControlCard_Initialization()
 {
@@ -137,19 +162,11 @@ void MainWindow::ControlCard_Initialization()
     }
 }
 
+void MainWindow::ALL_Origin_Back()
+{}
 
-void MainWindow::slot_open_Camera(bool y_n)
-{
-    qDebug()<<"display error messages";
-    if(y_n)
-    {
-        ui->statusBar->showMessage(tr("打开相机成功"));
-    }
-    else
-    {
-        ui->statusBar->showMessage(tr("打开相机失败"));
-    }
-}
+
+///////////Image detection function
 
 void MainWindow::slot_disp_image(HObject image)
 {
@@ -158,12 +175,12 @@ void MainWindow::slot_disp_image(HObject image)
 void MainWindow::slot_disp_image1(HObject image)
 {}
 
-void MainWindow::on_START_clicked()
-{
-    emit signal_action_enable(true);
-    if(First_Start)
-    {
-        //origin back
-    }
-    //move to position of detection
-}
+void MainWindow::slot_detection_image(HObject image)
+{}
+
+void MainWindow::slot_detection_image1(HObject image)
+{}
+
+
+
+

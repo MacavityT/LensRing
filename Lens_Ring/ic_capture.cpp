@@ -15,9 +15,9 @@ void IC_Capture::run()
     try
     {
         OpenFramegrabber("DirectShow", 1, 1, 0, 0, 0, 0, "default", 8, "rgb", -1, "false",
-            "[0] Y800 (1024x768)", "[0] DMK 72AUC02", 0, -1, &hv_AcqHandle);
+            "[0] Y800 (1024x768)", "[0]", 0, -1, &hv_AcqHandle);
         OpenFramegrabber("DirectShow", 1, 1, 0, 0, 0, 0, "default", 8, "rgb", -1, "false",
-            "[0] Y800 (1024x768)", "[1] DMK 72AUC02", 0, -1, &hv_AcqHandle1);
+            "[0] Y800 (1024x768)", "[1]", 0, -1, &hv_AcqHandle1);
     }
     catch(...)
     {
@@ -35,8 +35,6 @@ void IC_Capture::run()
             emit signal_disp_image(ho_Image);
             emit signal_disp_image1(ho_Image1);
         }
-        else
-        {}
     }
 }
 
