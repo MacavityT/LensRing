@@ -306,7 +306,7 @@ void CMD::on_cap_image2_clicked()
 void CMD::slot_disp_image1(HObject ic)
 {
     HTuple hv_Width, hv_Height;
-//    ho_Image1=ic;
+    ho_Image1=ic;
     ZoomImageSize(ic, &ic, 430, 310, "bilinear");
     if(first_open1)
     {
@@ -326,7 +326,7 @@ void CMD::slot_disp_image1(HObject ic)
 void CMD::slot_disp_image2(HObject ic)
 {
     HTuple hv_Width, hv_Height;
-//    ho_Image2=ic;
+    ho_Image2=ic;
     ZoomImageSize(ic, &ic, 430, 310, "bilinear");
     if(first_open2)
     {
@@ -456,7 +456,9 @@ void CMD::on_Create_Model1_clicked()
         return;
     }
     Union1(ho_Region, &ho_Region);
-
+    //Create shape model
+    create_model(1);
+    //select path.
     QString tmp=select_path();
     if(tmp=="Error")
     {
@@ -465,10 +467,33 @@ void CMD::on_Create_Model1_clicked()
         lock_tool_buttons(true);
         return;
     }
-
-    //Create shape model
     //Write shape model
-
+    //model path
+    QByteArray tmp_array=tmp.toLatin1();
+    char* model_path=tmp_array.data();
+    //region path
+    QString tmp_region=tmp+"Region.hobj";
+    QByteArray tmp_region_array=tmp_region.toLatin1();
+    char* region_path=tmp_region_array.data();
+    //image path
+    QString tmp_image=tmp+"Image";
+    QByteArray tmp_image_array=tmp_image.toLatin1();
+    char* image_path=tmp_image_array.data();
+    qDebug()<<"tmp="<<tmp;
+    qDebug()<<"model path="<<model_path;
+    qDebug()<<"tmp="<<tmp;
+    qDebug()<<"model path="<<model_path;
+    if(hv_ModelID.Length()!=0)
+    {
+        WriteImage(standard_image,"tiff",0,image_path);
+        WriteRegion(ho_Region,region_path);
+        WriteShapeModel(hv_ModelID, model_path);
+        qDebug()<<"Write shape model";
+    }
+    else
+    {
+        QMessageBox::information(this,tr("Warning"),tr("Create Model Failed!"),tr("OK"),0);
+    }
     //finally clear the region
     GenEmptyObj(&ho_Region);
     cap->cmd_cut=false;
@@ -485,7 +510,9 @@ void CMD::on_Create_Model2_clicked()
         return;
     }
     Union1(ho_Region, &ho_Region);
-
+    //Create shape model
+    create_model(2);
+    //select path.
     QString tmp=select_path();
     if(tmp=="Error")
     {
@@ -494,21 +521,75 @@ void CMD::on_Create_Model2_clicked()
         lock_tool_buttons(true);
         return;
     }
-
-    //Create shape model
-    //Write shape model
+    //Write shape model ,region and standard image
+    //model path
+    QByteArray tmp_array=tmp.toLatin1();
+    char* model_path=tmp_array.data();
+    //region path
+    QString tmp_region=tmp+"Region.hobj";
+    QByteArray tmp_region_array=tmp_region.toLatin1();
+    char* region_path=tmp_region_array.data();
+    //image path
+    QString tmp_image=tmp+"Image";
+    QByteArray tmp_image_array=tmp_image.toLatin1();
+    char* image_path=tmp_image_array.data();
+    qDebug()<<"tmp="<<tmp;
+    qDebug()<<"model path="<<model_path;
+    if(hv_ModelID.Length()!=0)
+    {
+//        ClearWindow(hv_WindowHandle1);
+//        DispObj(standard_image, HDevWindowStack::GetActive());
+        WriteImage(standard_image,"tiff",0,image_path);
+        WriteRegion(ho_Region,region_path);
+        WriteShapeModel(hv_ModelID, model_path);
+        qDebug()<<"Write shape model";
+    }
+    else
+    {
+        QMessageBox::information(this,tr("Warning"),tr("Create Model Failed!"),tr("OK"),0);
+    }
     //finally clear the region
     GenEmptyObj(&ho_Region);
     cap->cmd_cut=false;
     lock_tool_buttons(true);
 }
 
+void CMD::create_model(int num)
+{
+    HObject ho_Image,ho_ImageReduced,ho_ImageMedian,\
+            ho_ThresholdRegion,ho_ConnectedRegions,\
+            ho_SelectedRegions,ho_RegionUnion;
+    HTuple HomMat2DIdentity,HomMat2DScale;
+    switch (num) {
+    case 1:
+        ho_Image=ho_Image1;
+        break;
+    case 2:
+        ho_Image=ho_Image2;
+        break;
+    default:
+        break;
+    }
+    HomMat2dIdentity(&HomMat2DIdentity);
+    HomMat2dScale(HomMat2DIdentity,6,6,0,0,&HomMat2DScale);
+    AffineTransRegion(ho_Region,&ho_Region,HomMat2DScale,"nearest_neighbor");
+    ReduceDomain(ho_Image,ho_Region,&ho_ImageReduced);
+    MedianImage(ho_ImageReduced, &ho_ImageMedian, "circle", 2, "mirrored");
+    FastThreshold(ho_ImageMedian, &ho_ThresholdRegion, 128, 255, 20);
+    Connection(ho_ThresholdRegion, &ho_ConnectedRegions);
+    SelectShape(ho_ConnectedRegions, &ho_SelectedRegions, "area", "and", 150, 10e4);
+    Union1(ho_SelectedRegions, &ho_RegionUnion);
+    ReduceDomain(ho_ImageMedian,ho_RegionUnion,&standard_image);
+    CreateShapeModel(standard_image, "auto", 0, 6.29, "auto", "auto", "use_polarity",
+        "auto", "auto", &hv_ModelID);
+}
+
 QString CMD::select_path()
 {
     QFileDialog *fileDialog=new QFileDialog(this);
-    QString filename =fileDialog->getSaveFileName(this,tr("Model name"),"",tr("Images(*.png *.jpg *.jpeg *.bmp)"));
+    QString filename =fileDialog->getSaveFileName(this,tr("Model name"),"",tr("Shape_Model(*.shm)"));
     //define fileDialog title
-    fileDialog->setWindowTitle(tr("保存图片"));
+    fileDialog->setWindowTitle(tr("保存模板"));
     //set default path
     fileDialog->setDirectory("./");
     if(filename.isEmpty())

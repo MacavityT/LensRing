@@ -243,7 +243,7 @@
    <property name="geometry">
     <rect>
      <x>1093</x>
-     <y>690</y>
+     <y>710</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -256,7 +256,7 @@
    <property name="geometry">
     <rect>
      <x>973</x>
-     <y>690</y>
+     <y>710</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -269,7 +269,7 @@
    <property name="geometry">
     <rect>
      <x>1220</x>
-     <y>690</y>
+     <y>710</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -1505,6 +1505,75 @@
     </rect>
    </property>
   </widget>
+  <widget class="QLineEdit" name="Limit5">
+   <property name="geometry">
+    <rect>
+     <x>950</x>
+     <y>660</y>
+     <width>131</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_41">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>640</y>
+     <width>261</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 24pt &quot;Adobe 黑体 Std R&quot;;</string>
+   </property>
+   <property name="text">
+    <string>差异限度</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Limit4">
+   <property name="geometry">
+    <rect>
+     <x>810</x>
+     <y>660</y>
+     <width>131</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Limit2">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>660</y>
+     <width>131</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Limit3">
+   <property name="geometry">
+    <rect>
+     <x>670</x>
+     <y>660</y>
+     <width>131</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Limit1">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>660</y>
+     <width>131</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>Speed_Initial0</tabstop>
@@ -1581,6 +1650,11 @@
   <tabstop>Part3_name</tabstop>
   <tabstop>Part4_name</tabstop>
   <tabstop>Part5_name</tabstop>
+  <tabstop>Limit1</tabstop>
+  <tabstop>Limit2</tabstop>
+  <tabstop>Limit3</tabstop>
+  <tabstop>Limit4</tabstop>
+  <tabstop>Limit5</tabstop>
   <tabstop>CHANGE</tabstop>
   <tabstop>ALL_CONFIRM</tabstop>
   <tabstop>CLOSE</tabstop>

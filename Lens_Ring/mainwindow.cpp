@@ -175,7 +175,7 @@ QString MainWindow::load_model()
     //set defalut path
     fileDialog->setDirectory("./");
     //file name fliter
-    fileDialog->setNameFilter(tr("Images(*.png *.jpg *.jpeg *.bmp)"));
+    fileDialog->setNameFilter(tr("Shape_Model(*.shm)"));
     //set view mode
     fileDialog->setViewMode(QFileDialog::Detail);
 
@@ -503,6 +503,13 @@ void MainWindow::on_START_clicked()
     {
         return;
     }
+    qDebug()<<"Start clicked";
+    //at the moment "start" buttone are clicked,if model path has changed,program will reload model path
+    if(run->model_path_changed)
+    {
+        run->read_all_model();
+    }
+    //judge of the start time.
     if(First_Start)
     {
         First_Start=false;
@@ -510,14 +517,10 @@ void MainWindow::on_START_clicked()
     else
     {
         emit reload_parameters(present_part);
-        run->stop=false;
-        run->start();
+        run->stop=false;       
     }
-    //at the moment "start" buttone are clicked,if model path has changed,program will reload model path
-    if(run->model_path_changed)
-    {
-        run->read_all_model();
-    }
+    //running thread start
+    run->start();
 }
 
 void MainWindow::on_PAUSE_clicked()
@@ -584,8 +587,8 @@ void MainWindow::ControlCard_Initialization()
     if( d1000_board_init()<=0)
     {
         app->beep();
-//        QMessageBox::information(this,tr("Warning"),tr("Initialization Failed!"),tr("OK"),0);
-//        this->setEnabled(false);
+        QMessageBox::information(this,tr("Warning"),tr("Initialization Failed!"),tr("OK"),0);
+        this->setEnabled(false);
         board_initialization=false;
         return;
     }

@@ -16,6 +16,9 @@ Running::Running()
     configFile1=new QSettings(".\\Lens-Ring\\Temporary_File.ini",QSettings::IniFormat);
     memset(rotation,0,sizeof (double) *10);//fill specific value and its size to a memory
     read_all_model();
+    HTuple OriginalClipRegion;
+    GetSystem("clip_region",&OriginalClipRegion);
+    SetSystem("clip_region","false");
 }
 
 Running::~Running()
@@ -46,11 +49,17 @@ void Running::run()
         if(total_position!=0&&detection==0&&rise_edge1&&reset_finished&&detection_position_arrive)
         {
             rise_edge1=false;
-            while(index!=total_position)
+            while(index!=total_position)//"status" is to describe the image detection result.
             {
+                if(Interruption)
+                {
+                    d1000_immediate_stop(0);
+                    Interruption=false;
+                    break;
+                }
                 single_axis_action_absolute(0,rotation[index]);
                 single_axis_check_done(0,rotation[index]);
-                Sleep(100);
+                Sleep(200);
                 detection_number=index;
                 while(detection==1)
                 {}
@@ -61,7 +70,7 @@ void Running::run()
             index=0;
         }
         ///single camera(2) is used
-        if(total_position==0&&detection==0&&rise_edge2&&model_path.length()==1&&\
+        if(total_position==0&&detection==0&&rise_edge2&&model_number==1&&\
                 reset_finished&&detection_position_arrive)
         {
             detection=2;
@@ -93,6 +102,7 @@ void Running::get_config_param(int num)
 {
     //get detection position
     QString index=num+'0';
+    limit=configFile->value("limit/part"+index).toDouble();
     QString x;
     camera[0]=configFile->value("Detection_Position/part"+index+"_camera1").toDouble();
     camera[1]=configFile->value("Detection_Position/part"+index+"_camera2").toDouble();
@@ -139,7 +149,7 @@ void Running::get_config_param(int num)
 void Running::slot_read_model(int i)
 {
     QString num=i+'0';
-    model_path.insert(i-1,configFile1->value("Model_path/model"+num).toString());
+    model_path.insert(i,configFile1->value("Model_path/model"+num).toString());
     model_path_changed=true;
     //read shape model
 //    qDebug()<<*(model_path.begin());
@@ -153,8 +163,33 @@ void Running::read_all_model()
         QString index=i+'0';
         if(configFile1->contains("Model_path/model"+index))
         {
-            model_path.insert(i-1,configFile1->value("Model_path/model"+index).toString());
+            //get path.
+            QString tmp=configFile1->value("Model_path/model"+index).toString();
+            QString tmp_region=tmp+"Region.hobj";
+            QString tmp_image=tmp+"Image.tif";
+            qDebug()<<"read model path"<<tmp;
+            model_path.insert(i,tmp);
+            //save model to container
+            HTuple hv_ModelID;
+            QByteArray tmp_array=tmp.toLatin1();
+            char* path=tmp_array.data();
+            ReadShapeModel(path,&hv_ModelID);
+            MODEL.insert(i,hv_ModelID);
+            //save region to container
+            HObject save_region;
+            QByteArray tmp_region_array=tmp_region.toLatin1();
+            char* region_path=tmp_region_array.data();
+            ReadRegion(&save_region,region_path);
+            Region.insert(i,save_region);
+            //save image to standard image container
+            HObject save_image;
+            QByteArray tmp_image_array=tmp_image.toLatin1();
+            char* image_path=tmp_image_array.data();
+            ReadImage(&save_image,image_path);
+            StandardImage.insert(i,save_image);
+            //count model number.
             model_number=i;
+            qDebug()<<"model number="<<model_number;
         }
         else
         {
@@ -256,25 +291,115 @@ void Running::single_axis_action_absolute(short axis, long pulse)
 ////image detection functions
 void Running::slot_detection_image1(HObject image)
 {
+    //variable define
+    HObject ho_ImageMedian,RegionAffineTrans,RegionMoved;
+    HObject ho_ThresholdRegion, ho_ConnectedRegions,ho_SelectedRegions;
+    HObject ImageDetect,DetectionRegion,ImageSub,RegionSub;
+//    HTuple HomMat2DIdentity,HomMat2DScale;
+    HTuple Area, Row, Column;
+    HTuple AreaSub,RowSub,ColumnSub;
+    HTuple hv_Row1, hv_Column1, hv_Angle1, hv_Score1, Scale1;
+    HTuple HomMat2D;
+    //preprocess
+    MedianImage(image,&ho_ImageMedian,"circle",2,"mirrored");
+//    HomMat2dIdentity(&HomMat2DIdentity);
+//    HomMat2dScale(HomMat2DIdentity,2,2,0,0,&HomMat2DScale);
+//    AffineTransRegion(*(Region.begin()+detection_number),&RegionAffineTrans,HomMat2DScale,"nearest_neighbor");
     if(detection_number>=0)
     {
-        //single camera 1 , need to rotate
-        qDebug()<<"image detection 1 rotatation";
-        model_path[detection_number];//detection_number start with 0,model ID should equal to this
+        qDebug()<<"image detection 1 (rotatation)";
+        //single camera 1 , need to rotate      
+        //image detection
+        AreaCenter(*(Region.begin()+detection_number),&Area,&Row,&Column);
+        MoveRegion(*(Region.begin()+detection_number),&RegionMoved,-Row,-Column);
+        FindScaledShapeModel(ho_ImageMedian, *(MODEL.begin()+detection_number), 0, 6.29, 0.1, 10, 0.5, 1, 0.5, "least_squares",
+            0, 0.9, &hv_Row1, &hv_Column1, &hv_Angle1, &Scale1, &hv_Score1);
+        if(hv_Score1.Length()<=0)
+        {
+            Interruption=true;
+            difference1=0;
+            emit signal_disp_result(1,2);
+            return;
+        }
+        VectorAngleToRigid(0,0,0,hv_Row1,hv_Column1,hv_Angle1,&HomMat2D);
+        AffineTransRegion(RegionMoved,&DetectionRegion,HomMat2D,"nearest_neighbor");
+        ReduceDomain(ho_ImageMedian,DetectionRegion,&ImageDetect);
+
+        FastThreshold(ImageDetect, &ho_ThresholdRegion, 128, 255, 20);
+        Connection(ho_ThresholdRegion, &ho_ConnectedRegions);
+        SelectShape(ho_ConnectedRegions, &ho_SelectedRegions, "area", "and", 150, 10e4);
+        Union1(ho_SelectedRegions, &DetectionRegion);
+        ReduceDomain(ImageDetect,DetectionRegion,&ImageDetect);
+
+        SubImage(*(StandardImage.begin()+detection_number),ImageDetect,&ImageSub,1,0);
+        Threshold(ImageSub,&RegionSub,100,255);
+        AreaCenter(RegionSub,&AreaSub,&RowSub,&ColumnSub);
+        difference1=difference1+AreaSub;
+
         if(detection_number!=total_position-1)
         {
-            emit signal_disp_result(1,3);
+            if(difference1>=limit)
+            {
+                Interruption=true;
+                difference1=0;
+                emit signal_disp_result(1,2);
+            }
+            else
+            {
+                emit signal_disp_result(1,3);
+            }
         }
         else
         {
-            emit signal_disp_result(1,1);
+            if(difference1<limit)
+            {
+                emit signal_disp_result(1,1);
+            }
+            else
+            {
+                emit signal_disp_result(1,2);
+            }
+            difference1=0;
         }
     }
     else
     {
         //both of two cameras,model path is equal to model_path[0]
         qDebug()<<"image detection 1 no rotation";
-        model_path[0];
+        AreaCenter(*(Region.begin()),&Area,&Row,&Column);
+        MoveRegion(*(Region.begin()),&RegionMoved,-Row,-Column);
+        FindScaledShapeModel(ho_ImageMedian, *(MODEL.begin()), 0, 6.29, 0.1, 10, 0.5, 1, 0.5, "least_squares",
+            0, 0.9, &hv_Row1, &hv_Column1, &hv_Angle1, &Scale1, &hv_Score1);
+        if(hv_Score1.Length()<=0)
+        {
+            Interruption=true;
+            difference1=0;
+            emit signal_disp_result(1,2);
+            return;
+        }
+        VectorAngleToRigid(0,0,0,hv_Row1,hv_Column1,hv_Angle1,&HomMat2D);
+        AffineTransRegion(RegionMoved,&DetectionRegion,HomMat2D,"nearest_neighbor");
+        ReduceDomain(ho_ImageMedian,DetectionRegion,&ImageDetect);
+
+        FastThreshold(ImageDetect, &ho_ThresholdRegion, 128, 255, 20);
+        Connection(ho_ThresholdRegion, &ho_ConnectedRegions);
+        SelectShape(ho_ConnectedRegions, &ho_SelectedRegions, "area", "and", 150, 10e4);
+        Union1(ho_SelectedRegions, &DetectionRegion);
+        ReduceDomain(ImageDetect,DetectionRegion,&ImageDetect);
+
+        SubImage(*(StandardImage.begin()),ImageDetect,&ImageSub,1,0);
+        Threshold(ImageSub,&RegionSub,100,255);
+        AreaCenter(RegionSub,&AreaSub,&RowSub,&ColumnSub);
+        difference1=difference1+AreaSub;
+        if(difference1<limit)
+        {
+            emit signal_disp_result(1,1);
+        }
+        else
+        {
+            emit signal_disp_result(1,2);
+        }
+        difference1=0;
     }
 }
 

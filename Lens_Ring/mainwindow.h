@@ -15,6 +15,8 @@
 #include <QIODevice>
 #include <QSql>//need to add "QT += sql" in .pro file
 #include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
 
 #include "Dmc1000.h"
 #include "HalconCpp.h"

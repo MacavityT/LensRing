@@ -34,12 +34,19 @@ public:
     double camera[2];
     double rotation[10];
     double speed_set[3][3];
+    double limit;
     QStringList model_path;
+    QList<HTuple> MODEL;
+    QList<HObject> Region;
+    QList<HObject> StandardImage;
     int model_number=0;
     int total_position=0;
     //temporary flag
+    bool Interruption=false;
     bool model_path_changed=false;
     int detection_number=-1;
+    double difference1=0;
+    double difference2=0;
     //parameters load function
     void read_all_model();
     void move_to_detection_position();

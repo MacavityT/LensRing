@@ -11,11 +11,15 @@
 #include <QMouseEvent>
 #include <QSerialPort>
 #include <QSerialPortInfo>
+#include <string>
+#include <stdio.h>
+#include <iostream>
 
 #include "HalconCpp.h"
 #include "Dmc1000.h"
 #include "ic_capture.h"
 
+using namespace std;
 using namespace HalconCpp;
 namespace Ui {
 class CMD;
@@ -31,8 +35,9 @@ public:
 
     //Halcon variable
     HObject ho_Image1,ho_Image2;
-    HObject ho_Region;
+    HObject ho_Region,standard_image;
     HTuple hv_WindowHandle, hv_WindowHandle1, hv_WindowHandle2;
+    HTuple hv_ModelID;
 
     QSettings *configFile;
     IC_Capture *cap;
@@ -53,6 +58,7 @@ public:
 
     void disp_parameters();
     void lock_tool_buttons(bool);
+    void create_model(int);
     QString select_path();
 
 protected:
