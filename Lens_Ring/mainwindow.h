@@ -27,6 +27,7 @@
 using namespace HalconCpp;
 using namespace std;
 
+
 namespace Ui {
 class MainWindow;
 }
@@ -59,7 +60,6 @@ protected:
     void disp_path();
     void disp_present_path(int);
     void ControlCard_Initialization();
-    void ALL_Origin_Back();
 
 signals:
     void signal_action_enable(bool);

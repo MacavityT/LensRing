@@ -1,6 +1,9 @@
 #include "running.h"
 #include <QDebug>
 
+bool Running::pause=false;
+bool Running::resume=false;
+
 Running::Running()
 {
     configFile=new QSettings(".\\Lens-Ring\\Parameters_Setting.ini",QSettings::IniFormat);
@@ -17,9 +20,29 @@ Running::~Running()
 
 void Running::run()
 {
-    while(reset_finished)
+    int total_position=0;
+    for(int i=0;i<10;i++)
     {
-        //rotation
+        if(rotation[i]==0)
+        {
+            total_position=i;
+            break;
+        }
+    }
+    while(true)
+    {
+        if(reset_finished)
+        {
+            //rotation
+            d1000_start_sv_move(0,speed_set[0][0],speed_set[0][1],speed_set[0][2]);
+            while(d1000_check_done(0)==0)
+            {
+                //emit detection signals when arrive corresponding position
+
+                while(pause)
+                {}
+            }
+        }
     }
 }
 
@@ -88,6 +111,30 @@ void Running::read_all_model()
 void Running::slot_reset()
 {
     //origin back process
+    for(int i=0;i<=2;i++)
+    {
+        d1000_home_move(i,speed_set[i][0],speed_set[i][1],speed_set[i][2]);
+    }
+    //when rotation origin sensor is triggered , stop it
+    int x;
+    do
+    {
+        x=0;
+        for(int j=0;j<=2;j++)
+        {
+            x+=d1000_check_done(j);
+        }
+        while(pause)
+        {
+//wait for resume
+        }
+    }while(x!=3);
+    //clear the position
+    for(int k=0;k<=2;k++)
+    {
+        d1000_set_command_pos(k,0);
+    }
     //move to detection position
     reset_finished=true;
+    emit signal_lock_all_buttons(false);
 }

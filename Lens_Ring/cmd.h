@@ -15,7 +15,6 @@
 #include "HalconCpp.h"
 #include "Dmc1000.h"
 #include "ic_capture.h"
-#include "mainwindow.h"
 
 using namespace HalconCpp;
 namespace Ui {
@@ -40,6 +39,7 @@ public:
     QSerialPort *light;
 
     char send_data[4];
+    int bright_value=0;
 
     bool first_open1=true;
     bool first_open2=true;
@@ -113,8 +113,13 @@ private slots:
 
     void on_free_tool_clicked();
 
+    void on_brightness_editingFinished();
+
+    void on_Brightness_add_clicked();
+
+    void on_Brightness_decrease_clicked();
+
 private:
     Ui::CMD *ui;
 };
-
 #endif // CMD_H

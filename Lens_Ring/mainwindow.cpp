@@ -99,6 +99,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this,SIGNAL(signal_read_model(int)),run,SLOT(slot_read_model(int)));
     connect(this,SIGNAL(signal_reset()),run,SLOT(slot_reset()));
 
+    connect(run,SIGNAL(signal_lock_all_buttons(bool)),this,SLOT(lock_all_buttons(bool)));
+
     //set progressbar
     ui->progressBar->setMinimum(0);
     ui->progressBar->setMaximum(100);
@@ -106,14 +108,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->progressBar->setFormat("检测进度：%p%");
     //control buttons
     lock_all_buttons(true);//true is to lock all buttons
-//initialization the card and it's parameters
+    //initialization the card and it's parameters
     ControlCard_Initialization();
     disp_path();
+    //start main thread
     ic_cap->start();
-    if(board_initialization)
-    {
-        run->start();
-    }
+    run->start();
+//    if(board_initialization)
+//    {
+//        run->start();
+//    }
+//    Sleep(1000);
 }
 
 MainWindow::~MainWindow()
@@ -374,7 +379,7 @@ void MainWindow::on_actionCMD_triggered()
     NewDialog->setAttribute(Qt::WA_DeleteOnClose);//let the dialog auto delete when click the X.
     NewDialog->setAttribute(Qt::WA_QuitOnClose,false);//let the dialog close with mianwindow exit.
     NewDialog->show();
-//    qDebug()<<"call triggered cmd";
+    qDebug()<<"call triggered cmd";
 }
 
 void MainWindow::on_actionPMD_triggered()
@@ -451,7 +456,6 @@ void MainWindow::lock_all_buttons(bool YN)
 
 void MainWindow::on_START_clicked()
 {
-    ic_cap->start();
     ic_cap->action_enable=true;
 //    ic_cap->cmd_cap=false;
     if(First_Start)
@@ -465,6 +469,8 @@ void MainWindow::on_START_clicked()
 
 void MainWindow::on_PAUSE_clicked()
 {
+    run->pause=true;
+    run->resume=false;
     for(int i=0;i<3;i++)
     {
         if(d1000_check_done(i)==0)
@@ -476,7 +482,8 @@ void MainWindow::on_PAUSE_clicked()
 
 void MainWindow::on_RESUME_clicked()
 {
-
+    run->pause=false;
+    run->resume=true;
 }
 
 void MainWindow::on_STOP_clicked()
@@ -493,6 +500,7 @@ void MainWindow::on_STOP_clicked()
 
 void MainWindow::on_RESET_clicked()
 {
+    lock_all_buttons(true);
     emit signal_reset();
 }
 
@@ -518,9 +526,6 @@ void MainWindow::ControlCard_Initialization()
     }
 }
 
-void MainWindow::ALL_Origin_Back()
-{}
-
 
 ///////////Image detection function
 
@@ -534,6 +539,13 @@ void MainWindow::slot_disp_image1(HObject image)
         Hlong winID= this->winId();
         OpenWindow(85,70,430,310,winID,"visible","",&hv_WindowHandle1);
         SetPart(hv_WindowHandle1, 0, 0, hv_Height, hv_Width);
+        if (HDevWindowStack::IsOpen())
+        {
+            SetColor(HDevWindowStack::GetActive(),"red");
+//            SetColored(HDevWindowStack::GetActive(),12);
+            SetDraw(HDevWindowStack::GetActive(),"margin");
+            SetLineWidth(HDevWindowStack::GetActive(),3);
+        }
         First_OpenWindow1=false;
     }
     HDevWindowStack::Push(hv_WindowHandle1);
@@ -551,6 +563,13 @@ void MainWindow::slot_disp_image2(HObject image)
         Hlong winID= this->winId();
         OpenWindow(85,850,430,310,winID,"visible","",&hv_WindowHandle2);
         SetPart(hv_WindowHandle2, 0, 0, hv_Height, hv_Width);
+        if (HDevWindowStack::IsOpen())
+        {
+            SetColor(HDevWindowStack::GetActive(),"red");
+//            SetColored(HDevWindowStack::GetActive(),12);
+            SetDraw(HDevWindowStack::GetActive(),"margin");
+            SetLineWidth(HDevWindowStack::GetActive(),3);
+        }
         First_OpenWindow2=false;
     }
     HDevWindowStack::Push(hv_WindowHandle2);

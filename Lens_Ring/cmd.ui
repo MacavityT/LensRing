@@ -489,26 +489,7 @@ background-color: rgb(164, 205, 106);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="brightness">
-   <property name="geometry">
-    <rect>
-     <x>1120</x>
-     <y>590</y>
-     <width>80</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(181, 193, 200);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QToolButton" name="Camera2_down_2">
+  <widget class="QToolButton" name="Brightness_decrease">
    <property name="geometry">
     <rect>
      <x>1120</x>
@@ -527,7 +508,7 @@ background-color: rgb(164, 205, 106);</string>
     <string notr="true">CMD_Button</string>
    </attribute>
   </widget>
-  <widget class="QToolButton" name="Camera2_up_2">
+  <widget class="QToolButton" name="Brightness_add">
    <property name="geometry">
     <rect>
      <x>1120</x>
@@ -656,6 +637,19 @@ background-color: rgb(164, 205, 106);</string>
     <string>图像确认</string>
    </property>
   </widget>
+  <widget class="QLineEdit" name="brightness">
+   <property name="geometry">
+    <rect>
+     <x>1120</x>
+     <y>590</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(181, 193, 200);</string>
+   </property>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>cap_image1</tabstop>
@@ -681,8 +675,8 @@ background-color: rgb(164, 205, 106);</string>
   <tabstop>Camera2_down</tabstop>
   <tabstop>Anticlockwise</tabstop>
   <tabstop>Clockwise</tabstop>
-  <tabstop>Camera2_up_2</tabstop>
-  <tabstop>Camera2_down_2</tabstop>
+  <tabstop>Brightness_add</tabstop>
+  <tabstop>Brightness_decrease</tabstop>
  </tabstops>
  <resources/>
  <connections/>

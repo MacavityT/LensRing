@@ -49,6 +49,7 @@ void IC_Capture::run()
         GrabImageAsync(&ho_Image1, hv_AcqHandle1, -1);
         ZoomImageSize(ho_Image1, &ho_Image1, 430, 310, "bilinear");
 //        GrabImageAsync(&ho_Image2, hv_AcqHandle2, -1);
+//        ZoomImageSize(ho_Image2, &ho_Image2, 430, 310, "bilinear");
         if(action_enable)
         {
             emit signal_disp_image1(ho_Image1);

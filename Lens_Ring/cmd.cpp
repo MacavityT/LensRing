@@ -6,14 +6,18 @@ CMD::CMD(QWidget *parent) :
     ui(new Ui::CMD)
 {
     ui->setupUi(this);
+    //set window attribute
     setWindowTitle(tr("运行调试"));
     setMouseTracking(true);
-
+    //variable initialization
     GenEmptyObj(&ho_Region);
     configFile=new QSettings(".\\Lens-Ring\\Temporary_File.ini",QSettings::IniFormat);
     cap=new IC_Capture;
     light=new QSerialPort;
-// let the buttons of commissing be auto-repeat
+    send_data[0]='$';
+    send_data[1]=1;
+    bright_value=configFile->value("Brightness").toInt();
+    // let the buttons of commissing be auto-repeat
     QList<QAbstractButton*> list=ui->CMD_Button->buttons();
     QList<QAbstractButton*>::iterator i;
     for(i=list.begin();i!=list.end();++i)
@@ -43,12 +47,13 @@ CMD::CMD(QWidget *parent) :
     //when the variable is true,mainwindow display process will be cut off
     cap->cmd_cap=true;
     cap->action_enable=false;
-//    qDebug()<<"call cmd constructor";
+    qDebug()<<"call cmd constructor";
 }
 
 CMD::~CMD()
 {
     cap->cmd_cap=false;
+    cap->cmd_cut=false;
     cap->action_enable=true;
     delete ui;
     //delete image capture
@@ -60,7 +65,7 @@ CMD::~CMD()
 
 void CMD::mouseMoveEvent(QMouseEvent *event)
 {
-    if(event->globalY()<550)//this value should be changed
+    if(event->y()<370)//this value should be changed
     {
         hv_WindowHandle=hv_WindowHandle1;
     }
@@ -80,6 +85,7 @@ void CMD::disp_parameters()
     ui->position0->setText(_position);
     ui->position1->setText(_position1);
     ui->position2->setText(_position2);
+    ui->brightness->setText(configFile->value("Brightness").toString());
     ui->High_Speed_Initial->setText(configFile->value("Speed_Set/High_Speed_Initial").toString());
     ui->HIGH_SPEED_SET->setText(configFile->value("Speed_Set/High_Speed").toString());
     ui->High_Speed_Acceleration->setText(configFile->value("Speed_Set/High_Speed_Acceleration").toString());
@@ -118,6 +124,47 @@ void CMD::on_LOW_SPEED_SET_editingFinished()
 void CMD::on_Low_Speed_Acceleration_editingFinished()
 {
     configFile->setValue("Speed_Set/Low_Speed_Acceleration",ui->Low_Speed_Acceleration->text());
+}
+
+//Brightness adjust
+void CMD::on_brightness_editingFinished()
+{
+    int tem=ui->brightness->text().toInt();
+    if(tem>=0&&tem<=255)
+    {
+        configFile->setValue("Brightness",ui->brightness->text());
+        bright_value=tem;
+        send_data[2]=bright_value;
+        send_data[3]=send_data[0]^send_data[1]^send_data[2];
+        light->write(send_data);
+    }
+    else
+    {
+        QMessageBox::information(this,tr("Warning"),tr("Brightness value beyond limit!"),tr("OK"),0);
+        return;
+    }
+}
+
+void CMD::on_Brightness_add_clicked()
+{
+    bright_value+=1;
+    send_data[2]=bright_value;
+    send_data[3]=send_data[0]^send_data[1]^send_data[2];
+    light->write(send_data);
+    QString tem=bright_value;
+    ui->brightness->setText(tem);
+    configFile->setValue("Brightness",bright_value);
+}
+
+void CMD::on_Brightness_decrease_clicked()
+{
+    bright_value-=1;
+    send_data[2]=bright_value;
+    send_data[3]=send_data[0]^send_data[1]^send_data[2];
+    light->write(send_data);
+    QString tem=bright_value;
+    ui->brightness->setText(tem);
+    configFile->setValue("Brightness",bright_value);
 }
 
 //Mode Select
@@ -239,8 +286,16 @@ void CMD::slot_disp_image2(HObject ic)
 //create tools
 void CMD::on_circle_tool_clicked()
 {
+    if (HDevWindowStack::IsOpen())
+    {
+        SetColor(HDevWindowStack::GetActive(),"red");
+//            SetColored(HDevWindowStack::GetActive(),12);
+        SetDraw(HDevWindowStack::GetActive(),"margin");
+        SetLineWidth(HDevWindowStack::GetActive(),3);
+    }
     if(hv_WindowHandle.Length()!=0)
     {
+//        qDebug()<<"gen circle";
         HObject ho_Circle;
         HTuple  hv_Row, hv_Column, hv_Radius;
         DrawCircle(hv_WindowHandle, &hv_Row, &hv_Column, &hv_Radius);
@@ -253,6 +308,13 @@ void CMD::on_circle_tool_clicked()
 
 void CMD::on_ellipse_tool_clicked()
 {
+    if (HDevWindowStack::IsOpen())
+    {
+        SetColor(HDevWindowStack::GetActive(),"red");
+//            SetColored(HDevWindowStack::GetActive(),12);
+        SetDraw(HDevWindowStack::GetActive(),"margin");
+        SetLineWidth(HDevWindowStack::GetActive(),3);
+    }
     if(hv_WindowHandle.Length()!=0)
     {
         HObject ho_Ellipse;
@@ -267,6 +329,13 @@ void CMD::on_ellipse_tool_clicked()
 
 void CMD::on_rectangle1_tool_clicked()
 {
+    if (HDevWindowStack::IsOpen())
+    {
+        SetColor(HDevWindowStack::GetActive(),"red");
+//            SetColored(HDevWindowStack::GetActive(),12);
+        SetDraw(HDevWindowStack::GetActive(),"margin");
+        SetLineWidth(HDevWindowStack::GetActive(),3);
+    }
     if(hv_WindowHandle.Length()!=0)
     {
         HObject ho_Rectangle;
@@ -281,6 +350,13 @@ void CMD::on_rectangle1_tool_clicked()
 
 void CMD::on_rectangle2_tool_clicked()
 {
+    if (HDevWindowStack::IsOpen())
+    {
+        SetColor(HDevWindowStack::GetActive(),"red");
+//            SetColored(HDevWindowStack::GetActive(),12);
+        SetDraw(HDevWindowStack::GetActive(),"margin");
+        SetLineWidth(HDevWindowStack::GetActive(),3);
+    }
     if(hv_WindowHandle.Length()!=0)
     {
         HObject ho_Rectangle1;
@@ -295,6 +371,13 @@ void CMD::on_rectangle2_tool_clicked()
 
 void CMD::on_free_tool_clicked()
 {
+    if (HDevWindowStack::IsOpen())
+    {
+        SetColor(HDevWindowStack::GetActive(),"red");
+//            SetColored(HDevWindowStack::GetActive(),12);
+        SetDraw(HDevWindowStack::GetActive(),"margin");
+        SetLineWidth(HDevWindowStack::GetActive(),3);
+    }
     if(hv_WindowHandle.Length()!=0)
     {
         HObject ho_region;
@@ -319,6 +402,7 @@ void CMD::on_Create_Model1_clicked()
     if(tmp=="Error")
     {
         QMessageBox::information(this,tr("Warning"),tr("Create Model Failed!"),tr("OK"),0);
+        cap->cmd_cut=false;
         return;
     }
 
@@ -345,6 +429,7 @@ void CMD::on_Create_Model2_clicked()
     if(tmp=="Error")
     {
         QMessageBox::information(this,tr("Warning"),tr("Create Model Failed!"),tr("OK"),0);
+        cap->cmd_cut=false;
         return;
     }
 
@@ -373,3 +458,4 @@ QString CMD::select_path()
         return filename;
     }
 }
+

@@ -14,18 +14,24 @@ public:
     ~Running();
     void run();
 
+    //running process control
+    static bool pause;
+    static bool resume;
     bool reset_finished=false;
 
     QSettings *configFile;
     QSettings *configFile1;
+    //running thread parameters
     double camera[2];
     double rotation[10];
     double speed_set[3][3];
     QStringList model_path;
-
     int model_number=0;
+    //parameters load function
     void read_all_model();
 
+signals:
+    void signal_lock_all_buttons(bool);
 
 public slots:
     void get_config_param(int);
