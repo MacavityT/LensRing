@@ -135,9 +135,19 @@ background-color: rgb(164, 205, 106);</string>
      <string>印刷自动检测</string>
     </property>
     <addaction name="actionCMD"/>
+    <addaction name="actionPMD"/>
     <addaction name="actionMODEL"/>
    </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>部品选择</string>
+    </property>
+    <addaction name="actionPART1"/>
+    <addaction name="actionPART2"/>
+    <addaction name="actionPART3"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -156,6 +166,26 @@ background-color: rgb(164, 205, 106);</string>
   <action name="actionMODEL">
    <property name="text">
     <string>MODEL</string>
+   </property>
+  </action>
+  <action name="actionPMD">
+   <property name="text">
+    <string>PMD</string>
+   </property>
+  </action>
+  <action name="actionPART1">
+   <property name="text">
+    <string>PART1</string>
+   </property>
+  </action>
+  <action name="actionPART2">
+   <property name="text">
+    <string>PART2</string>
+   </property>
+  </action>
+  <action name="actionPART3">
+   <property name="text">
+    <string>PART3</string>
    </property>
   </action>
  </widget>

@@ -120,6 +120,14 @@ void MainWindow::on_actionCMD_triggered()
     NewDialog->show();
 }
 
+void MainWindow::on_actionPMD_triggered()
+{
+    auto NewDialog = new pmd();
+    NewDialog->setAttribute(Qt::WA_DeleteOnClose);//let the dialog auto delete when click the X.
+    NewDialog->setAttribute(Qt::WA_QuitOnClose,false);//let the dialog close with mianwindow exit.
+    NewDialog->show();
+}
+
 void MainWindow::on_actionMODEL_triggered()
 {
     auto NewDialog = new MODEL();
@@ -151,7 +159,7 @@ void MainWindow::ControlCard_Initialization()
     {
         app->beep();
         QMessageBox::information(this,tr("Warning"),tr("Initialization Failed!"),tr("OK"),0);
-        this->setEnabled(false);
+//        this->setEnabled(false);
         board_initialization=false;
         return;
     }
@@ -180,7 +188,4 @@ void MainWindow::slot_detection_image(HObject image)
 
 void MainWindow::slot_detection_image1(HObject image)
 {}
-
-
-
 

@@ -29,7 +29,8 @@ SOURCES += \
     cmd.cpp \
     sensor.cpp \
     ic_capture.cpp \
-    model.cpp
+    model.cpp \
+    pmd.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -37,12 +38,14 @@ HEADERS += \
     sensor.h \
     ic_capture.h \
     model.h \
-    Dmc1000.h
+    Dmc1000.h \
+    pmd.h
 
 FORMS += \
         mainwindow.ui \
     cmd.ui \
-    model.ui
+    model.ui \
+    pmd.ui
 
 
 #头文件路径包含

@@ -85,34 +85,40 @@ void CMD::on_Camera1_up_clicked()
 {
     d1000_start_t_move(2,50,StrVel,MaxVel,Tacc);
     QString position=QString::number(d1000_get_command_pos(2)+50);
+    ui->position2->setText(position);
 }
 
 void CMD::on_Camera1_down_clicked()
 {
     d1000_start_t_move(2,-50,StrVel,MaxVel,Tacc);
     QString position=QString::number(d1000_get_command_pos(2)-50);
+    ui->position2->setText(position);
 }
 
 void CMD::on_Camera2_up_clicked()
 {
     d1000_start_t_move(1,50,StrVel,MaxVel,Tacc);
     QString position=QString::number(d1000_get_command_pos(1)+50);
+    ui->position1->setText(position);
 }
 
 void CMD::on_Camera2_down_clicked()
 {
     d1000_start_t_move(1,-50,StrVel,MaxVel,Tacc);
     QString position=QString::number(d1000_get_command_pos(1)-50);
+    ui->position1->setText(position);
 }
 
 void CMD::on_Anticlockwise_clicked()
 {
     d1000_start_t_move(0,-50,StrVel,MaxVel,Tacc);
     QString position=QString::number(d1000_get_command_pos(0)-50);
+    ui->position0->setText(position);
 }
 
 void CMD::on_Clockwise_clicked()
 {
     d1000_start_t_move(0,50,StrVel,MaxVel,Tacc);
     QString position=QString::number(d1000_get_command_pos(0)+50);
+    ui->position0->setText(position);
 }

@@ -10,6 +10,7 @@
 #include "Dmc1000.h"
 #include "HalconCpp.h"
 #include "cmd.h"
+#include "pmd.h"
 #include "sensor.h"
 #include "model.h"
 #include "ic_capture.h"
@@ -53,6 +54,8 @@ public slots:
 
 private slots:
     void on_actionCMD_triggered();
+
+    void on_actionPMD_triggered();
 
     void on_actionMODEL_triggered();
 
