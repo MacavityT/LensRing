@@ -9,9 +9,11 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+#include "HalconCpp.h"
 #include "Dmc1000.h"
 #include "ic_capture.h"
 
+using namespace HalconCpp;
 namespace Ui {
 class CMD;
 }
@@ -24,6 +26,9 @@ public:
     explicit CMD(QWidget *parent = 0);
     ~CMD();
 
+    //Halcon variable
+    HObject image1,image2;
+
     QSettings *configFile;
     IC_Capture *cap;
 
@@ -33,6 +38,14 @@ public:
 
     void disp_parameters();
     QString select_path();
+
+signals:
+//    void signal_cap_image1();
+//    void signal_cap_image2();
+
+public slots:
+    void slot_disp_image1(HObject);
+    void slot_disp_image2(HObject);
 
 private slots:
 
@@ -51,6 +64,7 @@ private slots:
     void on_HIGH_SPEED_clicked();
 
     void on_LOW_SPEED_clicked();
+
     void on_Camera1_up_clicked();
 
     void on_Camera1_down_clicked();
@@ -66,6 +80,20 @@ private slots:
     void on_Create_Model1_clicked();
 
     void on_Create_Model2_clicked();
+
+    void on_cap_image1_clicked();
+
+    void on_cap_image2_clicked();
+
+    void on_circle_tool_clicked();
+
+    void on_ellipse_tool_clicked();
+
+    void on_rectangle1_tool_clicked();
+
+    void on_rectangle2_tool_clicked();
+
+    void on_free_tool_clicked();
 
 private:
     Ui::CMD *ui;

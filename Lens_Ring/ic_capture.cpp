@@ -39,6 +39,8 @@ void IC_Capture::run()
         }
         if(cmd_cap)
         {
+            while(cmd_cut)
+            {}
             action_enable=false;
             GrabImageAsync(&ho_Image3, hv_AcqHandle3, -1);
             GrabImageAsync(&ho_Image4, hv_AcqHandle4, -1);

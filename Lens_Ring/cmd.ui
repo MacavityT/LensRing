@@ -630,18 +630,51 @@ background-color: rgb(164, 205, 106);</string>
     <string>任意区域</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="cap_image1">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>290</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>图像确认</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="cap_image2">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>650</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>图像确认</string>
+   </property>
+  </widget>
  </widget>
  <tabstops>
+  <tabstop>cap_image1</tabstop>
   <tabstop>Create_Model1</tabstop>
+  <tabstop>cap_image2</tabstop>
   <tabstop>Create_Model2</tabstop>
-  <tabstop>HIGH_SPEED</tabstop>
+  <tabstop>circle_tool</tabstop>
+  <tabstop>ellipse_tool</tabstop>
+  <tabstop>rectangle1_tool</tabstop>
+  <tabstop>rectangle2_tool</tabstop>
+  <tabstop>free_tool</tabstop>
   <tabstop>High_Speed_Initial</tabstop>
   <tabstop>HIGH_SPEED_SET</tabstop>
   <tabstop>High_Speed_Acceleration</tabstop>
-  <tabstop>LOW_SPEED</tabstop>
+  <tabstop>HIGH_SPEED</tabstop>
   <tabstop>Low_Speed_Initial</tabstop>
   <tabstop>LOW_SPEED_SET</tabstop>
   <tabstop>Low_Speed_Acceleration</tabstop>
+  <tabstop>LOW_SPEED</tabstop>
   <tabstop>Camera1_up</tabstop>
   <tabstop>Camera1_down</tabstop>
   <tabstop>Camera2_up</tabstop>
@@ -650,11 +683,6 @@ background-color: rgb(164, 205, 106);</string>
   <tabstop>Clockwise</tabstop>
   <tabstop>Camera2_up_2</tabstop>
   <tabstop>Camera2_down_2</tabstop>
-  <tabstop>circle_tool</tabstop>
-  <tabstop>ellipse_tool</tabstop>
-  <tabstop>rectangle1_tool</tabstop>
-  <tabstop>rectangle2_tool</tabstop>
-  <tabstop>free_tool</tabstop>
  </tabstops>
  <resources/>
  <connections/>

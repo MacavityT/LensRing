@@ -8,6 +8,7 @@ CMD::CMD(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle(tr("运行调试"));
     configFile=new QSettings(".\\Lens-Ring\\Temporary_File.ini",QSettings::IniFormat);
+    cap=new IC_Capture;
 // let the buttons of commissing be auto-repeat
     QList<QAbstractButton*> list=ui->CMD_Button->buttons();
     QList<QAbstractButton*>::iterator i;
@@ -18,18 +19,29 @@ CMD::CMD(QWidget *parent) :
         temporary_button->setAutoRepeatDelay(0);
         temporary_button->setAutoRepeatInterval(10);
     }
+
+    //connect this to image capture thread
+    connect(cap,SIGNAL(signal_disp_image3(HObject)),this,SLOT(slot_disp_image1(HObject)));
+    connect(cap,SIGNAL(signal_disp_image4(HObject)),this,SLOT(slot_disp_image2(HObject)));
     //initializer the speed
     on_LOW_SPEED_clicked();
     disp_parameters();
+    //set static variable "cam_cap" to true
+    //when the variable is true,mainwindow display process will be cut off
+    cap->cmd_cap=true;
 }
 
 CMD::~CMD()
 {
     delete ui;
+    //delete image capture
+    cap->deleteLater();
     //delete configure file
     configFile->deleteLater();
 }
 
+////UI control and commissioning control
+///
 void CMD::disp_parameters()
 {
     QString _position=QString::number(d1000_get_command_pos(0));
@@ -137,6 +149,62 @@ void CMD::on_Clockwise_clicked()
     ui->position0->setText(position);
 }
 
+
+
+
+
+////Create model
+///
+//request image(cut image to pictre rather than video)
+void CMD::on_cap_image1_clicked()
+{
+//    emit signal_cap_image1();
+    cap->cmd_cut=true;
+}
+
+void CMD::on_cap_image2_clicked()
+{
+//    emit signal_cap_image2();
+    cap->cmd_cut=true;
+}
+
+//acquire image
+void CMD::slot_disp_image1(HObject ic)
+{
+    image1=ic;
+}
+
+void CMD::slot_disp_image2(HObject ic)
+{
+    image2=ic;
+}
+
+//create tools
+void CMD::on_circle_tool_clicked()
+{
+
+}
+
+void CMD::on_ellipse_tool_clicked()
+{
+
+}
+
+void CMD::on_rectangle1_tool_clicked()
+{
+
+}
+
+void CMD::on_rectangle2_tool_clicked()
+{
+
+}
+
+void CMD::on_free_tool_clicked()
+{
+
+}
+
 void CMD::on_Create_Model1_clicked()
 {
     //Create shape model
@@ -150,6 +218,7 @@ void CMD::on_Create_Model1_clicked()
     //Write shape model
 }
 
+//union all regions and select path to save
 void CMD::on_Create_Model2_clicked()
 {
     //unite all the input regions "union1"
@@ -178,7 +247,7 @@ QString CMD::select_path()
     }
     else
     {
-        qDebug()<<filename;
+//        qDebug()<<filename;
         return filename;
     }
 }

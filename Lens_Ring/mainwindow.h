@@ -42,6 +42,7 @@ public:
     bool board_initialization=true;
     bool First_Start=true;
     bool First_OpenWindow=true;
+    int present_part=0;
 //function define
     void closeEvent(QCloseEvent *);
     QString load_model();
@@ -53,6 +54,9 @@ public:
 signals:
     void signal_action_enable(bool);
     void signal_part_select(int);
+    void reload_parameters(int);//it's function is same to (signal_part_select)
+    void signal_read_model(int);
+    void signal_reset();
 
 public slots:
     void slot_open_Camera(bool);

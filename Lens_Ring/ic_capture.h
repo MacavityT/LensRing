@@ -22,6 +22,7 @@ public:
     HTuple  hv_AcqHandle1,hv_AcqHandle2,hv_AcqHandle3,hv_AcqHandle4;
 
     bool action_enable=false;
+    bool cmd_cut=false;
 
 signals:
     void signal_open_Camera(bool);
@@ -30,7 +31,12 @@ signals:
     void signal_disp_image3(HObject);
     void signal_disp_image4(HObject);
 
+    void signal_cmd_image1(HObject);
+    void signal_cmd_image2(HObject);
+
 public slots:
+//    void slot_cmd_image1();
+//    void slot_cmd_image2();
 
 };
 

@@ -1,3 +1,9 @@
+#include "string"
+std::string tantai_yan="The most handsome boy!";
+std::string author=tantai_yan;
+std::string lao_zhang="Sha bi";
+std::string Zhang_Junjie=lao_zhang;
+std::string date="20170412";
 //                       ::
 //                      :;J7, :,                        ::;7:
 //                      ,ivYi, ,                       ;LLLFS:
@@ -35,7 +41,6 @@
 
 
 //                          神兽护体！永无BUG!
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
@@ -49,8 +54,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(tr("Control System"));
     qRegisterMetaType<DWORD>("DWORD");
 
-    configFile=new QSettings(".\\Lens-Ring\\Temporary_File.ini",QSettings::IniFormat);
-    configFile1=new QSettings(".\\Lens-Ring\\Parameters_Setting.ini",QSettings::IniFormat);
+    configFile=new QSettings(".\\Lens-Ring\\Parameters_Setting.ini",QSettings::IniFormat);
+    configFile1=new QSettings(".\\Lens-Ring\\Temporary_File.ini",QSettings::IniFormat);
     ic_cap=new IC_Capture;
     run=new Running;
 
@@ -70,7 +75,9 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     //connect running thread and mainwindow
     connect(this,SIGNAL(signal_part_select(int)),run,SLOT(get_config_param(int)));
-
+    connect(this,SIGNAL(reload_parameters(int)),run,SLOT(get_config_param(int)));
+    connect(this,SIGNAL(signal_read_model(int)),run,SLOT(slot_read_model(int)));
+    connect(this,SIGNAL(signal_reset()),run,SLOT(slot_reset()));
 
     lock_all_buttons(true);//true is to lock all buttons
 //initialization the card and it's parameters
@@ -86,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-    //the configFile pointer
+    //the configFile1 pointer
     configFile->deleteLater();
     configFile1->deleteLater();
     //Running thread
@@ -133,92 +140,172 @@ QString MainWindow::load_model()
     }
     else
     {
-        return "Empty Model";
+        return "";
     }
 }
 
 void MainWindow::disp_path()
 {
-    ui->disp_path1->setText(configFile->value("Model_path/model1").toString());
-    ui->disp_path2->setText(configFile->value("Model_path/model2").toString());
-    ui->disp_path3->setText(configFile->value("Model_path/model3").toString());
-    ui->disp_path4->setText(configFile->value("Model_path/model4").toString());
-    ui->disp_path5->setText(configFile->value("Model_path/model5").toString());
-    ui->disp_path6->setText(configFile->value("Model_path/model6").toString());
-    ui->disp_path7->setText(configFile->value("Model_path/model7").toString());
-    ui->disp_path8->setText(configFile->value("Model_path/model8").toString());
-    ui->disp_path9->setText(configFile->value("Model_path/model9").toString());
-    ui->disp_path10->setText(configFile->value("Model_path/model10").toString());
+    ui->disp_path1->setText(configFile1->value("Model_path/model1").toString());
+    ui->disp_path2->setText(configFile1->value("Model_path/model2").toString());
+    ui->disp_path3->setText(configFile1->value("Model_path/model3").toString());
+    ui->disp_path4->setText(configFile1->value("Model_path/model4").toString());
+    ui->disp_path5->setText(configFile1->value("Model_path/model5").toString());
+    ui->disp_path6->setText(configFile1->value("Model_path/model6").toString());
+    ui->disp_path7->setText(configFile1->value("Model_path/model7").toString());
+    ui->disp_path8->setText(configFile1->value("Model_path/model8").toString());
+    ui->disp_path9->setText(configFile1->value("Model_path/model9").toString());
+    ui->disp_path10->setText(configFile1->value("Model_path/model10").toString());
 }
 
 void MainWindow::on_load_model_1_clicked()
 {
     QString tmp=load_model();
     ui->disp_path1->setText(tmp);
-    configFile->setValue("Model_path/model1",tmp);
+    if(tmp!="")
+    {
+        configFile1->setValue("Model_path/model1",tmp);
+        emit signal_read_model(1);
+    }
+    else
+    {
+        configFile1->remove("Model_path/model1");
+    }
 }
 
 void MainWindow::on_load_model_2_clicked()
 {
     QString tmp=load_model();
     ui->disp_path2->setText(tmp);
-    configFile->setValue("Model_path/model2",tmp);
+    if(tmp!="")
+    {
+        configFile1->setValue("Model_path/model2",tmp);
+        emit signal_read_model(2);
+    }
+    else
+    {
+        configFile1->remove("Model_path/model2");
+    }
 }
 
 void MainWindow::on_load_model_3_clicked()
 {
     QString tmp=load_model();
     ui->disp_path3->setText(tmp);
-    configFile->setValue("Model_path/model3",tmp);
+    if(tmp!="")
+    {
+        configFile1->setValue("Model_path/model3",tmp);
+        emit signal_read_model(3);
+    }
+    else
+    {
+        configFile1->remove("Model_path/model3");
+    }
 }
 
 void MainWindow::on_load_model_4_clicked()
 {
     QString tmp=load_model();
     ui->disp_path4->setText(tmp);
-    configFile->setValue("Model_path/model4",tmp);
+    if(tmp!="")
+    {
+        configFile1->setValue("Model_path/model4",tmp);
+        emit signal_read_model(4);
+    }
+    else
+    {
+        configFile1->remove("Model_path/model4");
+    }
 }
 
 void MainWindow::on_load_model_5_clicked()
 {
     QString tmp=load_model();
     ui->disp_path5->setText(tmp);
-    configFile->setValue("Model_path/model5",tmp);
+    if(tmp!="")
+    {
+        configFile1->setValue("Model_path/model5",tmp);
+        emit signal_read_model(5);
+    }
+    else
+    {
+        configFile1->remove("Model_path/model5");
+    }
 }
 
 void MainWindow::on_load_model_6_clicked()
 {
     QString tmp=load_model();
     ui->disp_path6->setText(tmp);
-    configFile->setValue("Model_path/model6",tmp);
+    if(tmp!="")
+    {
+        configFile1->setValue("Model_path/model6",tmp);
+        emit signal_read_model(6);
+    }
+    else
+    {
+        configFile1->remove("Model_path/model6");
+    }
 }
 
 void MainWindow::on_load_model_7_clicked()
 {
     QString tmp=load_model();
     ui->disp_path7->setText(tmp);
-    configFile->setValue("Model_path/model7",tmp);
+    if(tmp!="")
+    {
+        configFile1->setValue("Model_path/model7",tmp);
+        emit signal_read_model(7);
+    }
+    else
+    {
+        configFile1->remove("Model_path/model7");
+    }
 }
 
 void MainWindow::on_load_model_8_clicked()
 {
     QString tmp=load_model();
     ui->disp_path8->setText(tmp);
-    configFile->setValue("Model_path/model8",tmp);
+    if(tmp!="")
+    {
+        configFile1->setValue("Model_path/model8",tmp);
+        emit signal_read_model(8);
+    }
+    else
+    {
+        configFile1->remove("Model_path/model8");
+    }
 }
 
 void MainWindow::on_load_model_9_clicked()
 {
     QString tmp=load_model();
     ui->disp_path9->setText(tmp);
-    configFile->setValue("Model_path/model9",tmp);
+    if(tmp!="")
+    {
+        configFile1->setValue("Model_path/model9",tmp);
+        emit signal_read_model(9);
+    }
+    else
+    {
+        configFile1->remove("Model_path/model9");
+    }
 }
 
 void MainWindow::on_load_model_10_clicked()
 {
     QString tmp=load_model();
     ui->disp_path10->setText(tmp);
-    configFile->setValue("Model_path/model10",tmp);
+    if(tmp!="")
+    {
+        configFile1->setValue("Model_path/model10",tmp);
+        emit signal_read_model(10);
+    }
+    else
+    {
+        configFile1->remove("Model_path/model10");
+    }
 }
 
 
@@ -242,7 +329,6 @@ void MainWindow::closeEvent( QCloseEvent * event )
 
 void MainWindow::slot_open_Camera(bool y_n)
 {
-    qDebug()<<"display error messages";
     if(y_n)
     {
         ui->statusBar->showMessage(tr("打开相机成功"));
@@ -259,9 +345,6 @@ void MainWindow::on_actionCMD_triggered()
     NewDialog->setAttribute(Qt::WA_DeleteOnClose);//let the dialog auto delete when click the X.
     NewDialog->setAttribute(Qt::WA_QuitOnClose,false);//let the dialog close with mianwindow exit.
     NewDialog->show();
-    //set static variable "cam_cap" to true
-    //when the variable is true,mainwindow display process will be cut off
-    ic_cap->cmd_cap=true;
 }
 
 void MainWindow::on_actionPMD_triggered()
@@ -284,36 +367,41 @@ void MainWindow::on_actionPART1_triggered()
 {
     disp_present_path(1);
     emit signal_part_select(1);
+    present_part=1;
 }
 
 void MainWindow::on_actionPART2_triggered()
 {
     disp_present_path(2);
     emit signal_part_select(2);
+    present_part=2;
 }
 
 void MainWindow::on_actionPART3_triggered()
 {
     disp_present_path(3);
     emit signal_part_select(3);
+    present_part=3;
 }
 
 void MainWindow::on_actionPART4_triggered()
 {
     disp_present_path(4);
     emit signal_part_select(4);
+    present_part=4;
 }
 
 void MainWindow::on_actionPART5_triggered()
 {
     disp_present_path(5);
     emit signal_part_select(5);
+    present_part=5;
 }
 
 void MainWindow::disp_present_path(int num)
 {
     QString part_num=num+'0';
-    QString part_name=configFile1->value("Part_Name/part"+part_num+"_name").toString();
+    QString part_name=configFile->value("Part_Name/part"+part_num+"_name").toString();
     QString part="部品";
     part+=part_num+":";
     ui->Part_Num->setText(part+part_name);
@@ -336,8 +424,10 @@ void MainWindow::on_START_clicked()
     ic_cap->action_enable=true;
     if(First_Start)
     {
+        emit signal_reset();
         First_Start=false;
     }
+    emit reload_parameters(present_part);
     //move to position of detection
 }
 
@@ -371,6 +461,7 @@ void MainWindow::on_STOP_clicked()
 
 void MainWindow::on_RESET_clicked()
 {
+    emit signal_reset();
 }
 
 
@@ -383,7 +474,7 @@ void MainWindow::ControlCard_Initialization()
     if( d1000_board_init()<=0)
     {
         app->beep();
-        QMessageBox::information(this,tr("Warning"),tr("Initialization Failed!"),tr("OK"),0);
+//        QMessageBox::information(this,tr("Warning"),tr("Initialization Failed!"),tr("OK"),0);
 //        this->setEnabled(false);
         board_initialization=false;
         return;

@@ -1576,6 +1576,11 @@
   <tabstop>part5_rotation8</tabstop>
   <tabstop>part5_rotation9</tabstop>
   <tabstop>part5_rotation10</tabstop>
+  <tabstop>Part1_name</tabstop>
+  <tabstop>Part2_name</tabstop>
+  <tabstop>Part3_name</tabstop>
+  <tabstop>Part4_name</tabstop>
+  <tabstop>Part5_name</tabstop>
   <tabstop>CHANGE</tabstop>
   <tabstop>ALL_CONFIRM</tabstop>
   <tabstop>CLOSE</tabstop>
