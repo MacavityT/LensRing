@@ -33,21 +33,24 @@ CMD::CMD(QWidget *parent) :
     //set static variable "cam_cap" to true
     //when the variable is true,mainwindow display process will be cut off
     cap->cmd_cap=true;
+    cap->action_enable=false;
 //    qDebug()<<"call cmd constructor";
 }
 
 CMD::~CMD()
 {
+    cap->cmd_cap=false;
+    cap->action_enable=true;
     delete ui;
     //delete image capture
-//    cap->deleteLater();
+    cap->deleteLater();
     //delete configure file
     configFile->deleteLater();
 }
 
 void CMD::mouseMoveEvent(QMouseEvent *event)
 {
-    if(event->globalY()<50)//this value should be changed
+    if(event->globalY()<550)//this value should be changed
     {
         hv_WindowHandle=hv_WindowHandle1;
     }
@@ -312,6 +315,7 @@ void CMD::on_Create_Model1_clicked()
 
     //finally clear the region
     GenEmptyObj(&ho_Region);
+    cap->cmd_cut=false;
 }
 
 //union all regions and select path to save
@@ -336,6 +340,7 @@ void CMD::on_Create_Model2_clicked()
     //Write shape model
     //finally clear the region
     GenEmptyObj(&ho_Region);
+    cap->cmd_cut=false;
 }
 
 QString CMD::select_path()

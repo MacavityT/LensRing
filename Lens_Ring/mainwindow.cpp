@@ -354,6 +354,7 @@ void MainWindow::on_actionCMD_triggered()
     NewDialog->setAttribute(Qt::WA_DeleteOnClose);//let the dialog auto delete when click the X.
     NewDialog->setAttribute(Qt::WA_QuitOnClose,false);//let the dialog close with mianwindow exit.
     NewDialog->show();
+//    qDebug()<<"call triggered cmd";
 }
 
 void MainWindow::on_actionPMD_triggered()
@@ -432,6 +433,7 @@ void MainWindow::on_START_clicked()
 {
     ic_cap->start();
     ic_cap->action_enable=true;
+//    ic_cap->cmd_cap=false;
     if(First_Start)
     {
         emit signal_reset();

@@ -50,15 +50,11 @@ void IC_Capture::run()
 //        GrabImageAsync(&ho_Image2, hv_AcqHandle2, -1);
         if(action_enable)
         {
-            cmd_cap=false;
             emit signal_disp_image1(ho_Image1);
 //            emit signal_disp_image2(ho_Image2);
         }
-        if(cmd_cap)
+        if(cmd_cap&&!cmd_cut)
         {
-            while(cmd_cut)
-            {}
-            action_enable=false;
             emit signal_disp_image3(ho_Image1);
 //            emit signal_disp_image4(ho_Image2);
         }
