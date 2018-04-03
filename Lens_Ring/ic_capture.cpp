@@ -28,10 +28,10 @@ void IC_Capture::run()
     GrabImageStart(hv_AcqHandle1, -1);
     while(1)//循环采集图像
     {
-        GrabImageAsync(&ho_Image, hv_AcqHandle, -1);
-        GrabImageAsync(&ho_Image1, hv_AcqHandle1, -1);
         if(action_enable)
         {
+            GrabImageAsync(&ho_Image, hv_AcqHandle, -1);
+            GrabImageAsync(&ho_Image1, hv_AcqHandle1, -1);
             emit signal_disp_image(ho_Image);
             emit signal_disp_image1(ho_Image1);
         }
