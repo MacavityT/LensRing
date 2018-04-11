@@ -14,7 +14,7 @@
 #include "HalconCpp.h"
 #include "cmd.h"
 #include "pmd.h"
-#include "sensor.h"
+#include "running.h"
 #include "model.h"
 #include "ic_capture.h"
 
@@ -35,8 +35,9 @@ public:
 //pointer define
     QApplication *app;
     IC_Capture *ic_cap;
-    Sensor *sen;
+    Running *run;
     QSettings *configFile;
+    QSettings *configFile1;
 //variable define
     bool board_initialization=true;
     bool First_Start=true;
@@ -45,11 +46,13 @@ public:
     void closeEvent(QCloseEvent *);
     QString load_model();
     void disp_path();
+    void disp_present_path(int);
     void ControlCard_Initialization();
     void ALL_Origin_Back();
 
 signals:
     void signal_action_enable(bool);
+    void signal_part_select(int);
 
 public slots:
     void slot_open_Camera(bool);
@@ -96,6 +99,16 @@ private slots:
     void on_load_model_9_clicked();
 
     void on_load_model_10_clicked();
+
+    void on_actionPART1_triggered();
+
+    void on_actionPART2_triggered();
+
+    void on_actionPART3_triggered();
+
+    void on_actionPART4_triggered();
+
+    void on_actionPART5_triggered();
 
 private:
     Ui::MainWindow *ui;

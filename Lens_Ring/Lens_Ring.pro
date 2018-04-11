@@ -27,19 +27,19 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     cmd.cpp \
-    sensor.cpp \
     ic_capture.cpp \
     model.cpp \
-    pmd.cpp
+    pmd.cpp \
+    running.cpp
 
 HEADERS += \
         mainwindow.h \
     cmd.h \
-    sensor.h \
     ic_capture.h \
     model.h \
     Dmc1000.h \
-    pmd.h
+    pmd.h \
+    running.h
 
 FORMS += \
         mainwindow.ui \

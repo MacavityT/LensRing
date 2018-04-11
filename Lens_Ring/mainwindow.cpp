@@ -38,6 +38,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -49,10 +50,11 @@ MainWindow::MainWindow(QWidget *parent) :
     qRegisterMetaType<DWORD>("DWORD");
 
     configFile=new QSettings(".\\Lens-Ring\\Temporary_File.ini",QSettings::IniFormat);
+    configFile1=new QSettings(".\\Lens-Ring\\Parameters_Setting.ini",QSettings::IniFormat);
     ic_cap=new IC_Capture;
-    sen=new Sensor;
+    run=new Running;
 
-    //connect
+    //connect ic_cap thread and mainwindow
     connect(ic_cap,SIGNAL(signal_open_Camera(bool)),this,SLOT(slot_open_Camera(bool)));
     connect(ic_cap,SIGNAL(signal_disp_image1(HObject)),this,SLOT(slot_disp_image1(HObject)));
     connect(ic_cap,SIGNAL(signal_disp_image2(HObject)),this,SLOT(slot_disp_image2(HObject)));
@@ -66,6 +68,8 @@ MainWindow::MainWindow(QWidget *parent) :
         //checked is true if the action is checked, or false if the action is unchecked.
         connect(action,SIGNAL(triggered(bool)),SLOT(lock_all_buttons(bool)));
     }
+    //connect running thread and mainwindow
+    connect(this,SIGNAL(signal_part_select(int)),run,SLOT(get_config_param(int)));
 
 
     lock_all_buttons(true);//true is to lock all buttons
@@ -74,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent) :
     disp_path();
     if(board_initialization)
     {
-//        sen->start();
+        run->start();
         ic_cap->start();
     }
 }
@@ -84,10 +88,11 @@ MainWindow::~MainWindow()
     delete ui;
     //the configFile pointer
     configFile->deleteLater();
-    //sensor thread
-    sen->terminate();
-    sen->wait(1);
-    sen->deleteLater();
+    configFile1->deleteLater();
+    //Running thread
+    run->terminate();
+    run->wait(1);
+    run->deleteLater();
     //image captuer thread
     ic_cap->terminate();
     ic_cap->wait(1);
@@ -275,6 +280,57 @@ void MainWindow::on_actionMODEL_triggered()
     NewDialog->show();
 }
 
+void MainWindow::on_actionPART1_triggered()
+{
+    disp_present_path(1);
+    emit signal_part_select(1);
+}
+
+void MainWindow::on_actionPART2_triggered()
+{
+    disp_present_path(2);
+    emit signal_part_select(2);
+}
+
+void MainWindow::on_actionPART3_triggered()
+{
+    disp_present_path(3);
+    emit signal_part_select(3);
+}
+
+void MainWindow::on_actionPART4_triggered()
+{
+    disp_present_path(4);
+    emit signal_part_select(4);
+}
+
+void MainWindow::on_actionPART5_triggered()
+{
+    disp_present_path(5);
+    emit signal_part_select(5);
+}
+
+void MainWindow::disp_present_path(int num)
+{
+    QString part_num=num+'0';
+    QString part_name=configFile1->value("Part_Name/part"+part_num+"_name").toString();
+    QString part="部品";
+    part+=part_num+":";
+    ui->Part_Num->setText(part+part_name);
+}
+
+void MainWindow::lock_all_buttons(bool YN)
+{
+    //set button enable
+    QList<QAbstractButton*> list=ui->Control_Buttons->buttons();
+    QList<QAbstractButton*>::iterator i;
+    for(i=list.begin();i!=list.end();++i)
+    {
+        QAbstractButton *temporary_button=*i;
+        temporary_button->setEnabled(!YN);
+    }
+}
+
 void MainWindow::on_START_clicked()
 {
     ic_cap->action_enable=true;
@@ -315,19 +371,6 @@ void MainWindow::on_STOP_clicked()
 
 void MainWindow::on_RESET_clicked()
 {
-
-}
-
-void MainWindow::lock_all_buttons(bool YN)
-{
-    //set button enable
-    QList<QAbstractButton*> list=ui->Control_Buttons->buttons();
-    QList<QAbstractButton*>::iterator i;
-    for(i=list.begin();i!=list.end();++i)
-    {
-        QAbstractButton *temporary_button=*i;
-        temporary_button->setEnabled(!YN);
-    }
 }
 
 

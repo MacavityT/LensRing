@@ -22,6 +22,7 @@ pmd::~pmd()
 void pmd::set_configure_parameter()
 {
     //Part 1
+    configFile->setValue("Part_Name/part1_name",ui->Part1_name->text());
     configFile->setValue("Detection_Position/part1_camera1",ui->part1_camera1->text());
     configFile->setValue("Detection_Position/part1_camera2",ui->part1_camera2->text());
     configFile->setValue("Detection_Position/part1_rotation1",ui->part1_rotation1->text());
@@ -35,6 +36,7 @@ void pmd::set_configure_parameter()
     configFile->setValue("Detection_Position/part1_rotation9",ui->part1_rotation9->text());
     configFile->setValue("Detection_Position/part1_rotation10",ui->part1_rotation10->text());
     //Part 2
+    configFile->setValue("Part_Name/part2_name",ui->Part2_name->text());
     configFile->setValue("Detection_Position/part2_camera1",ui->part2_camera1->text());
     configFile->setValue("Detection_Position/part2_camera2",ui->part2_camera2->text());
     configFile->setValue("Detection_Position/part2_rotation1",ui->part2_rotation1->text());
@@ -48,6 +50,7 @@ void pmd::set_configure_parameter()
     configFile->setValue("Detection_Position/part2_rotation9",ui->part2_rotation9->text());
     configFile->setValue("Detection_Position/part2_rotation10",ui->part2_rotation10->text());
     //Part 3
+    configFile->setValue("Part_Name/part3_name",ui->Part3_name->text());
     configFile->setValue("Detection_Position/part3_camera1",ui->part3_camera1->text());
     configFile->setValue("Detection_Position/part3_camera2",ui->part3_camera2->text());
     configFile->setValue("Detection_Position/part3_rotation1",ui->part3_rotation1->text());
@@ -61,6 +64,7 @@ void pmd::set_configure_parameter()
     configFile->setValue("Detection_Position/part3_rotation9",ui->part3_rotation9->text());
     configFile->setValue("Detection_Position/part3_rotation10",ui->part3_rotation10->text());
     //Part 4
+    configFile->setValue("Part_Name/part4_name",ui->Part4_name->text());
     configFile->setValue("Detection_Position/part4_camera1",ui->part4_camera1->text());
     configFile->setValue("Detection_Position/part4_camera2",ui->part4_camera2->text());
     configFile->setValue("Detection_Position/part4_rotation1",ui->part4_rotation1->text());
@@ -74,6 +78,7 @@ void pmd::set_configure_parameter()
     configFile->setValue("Detection_Position/part4_rotation9",ui->part4_rotation9->text());
     configFile->setValue("Detection_Position/part4_rotation10",ui->part4_rotation10->text());
     //Part 5
+    configFile->setValue("Part_Name/part5_name",ui->Part5_name->text());
     configFile->setValue("Detection_Position/part5_camera1",ui->part5_camera1->text());
     configFile->setValue("Detection_Position/part5_camera2",ui->part5_camera2->text());
     configFile->setValue("Detection_Position/part5_rotation1",ui->part5_rotation1->text());
@@ -104,6 +109,7 @@ void pmd::set_configure_parameter()
 void pmd::disp_configure_parameter()
 {
     //Part 1
+    ui->Part1_name->setText(configFile->value("Part_Name/part1_name").toString());
     ui->part1_camera1->setText(configFile->value("Detection_Position/part1_camera1").toString());
     ui->part1_camera2->setText(configFile->value("Detection_Position/part1_camera2").toString());
     ui->part1_rotation1->setText(configFile->value("Detection_Position/part1_rotation1").toString());
@@ -117,6 +123,7 @@ void pmd::disp_configure_parameter()
     ui->part1_rotation9->setText(configFile->value("Detection_Position/part1_rotation9").toString());
     ui->part1_rotation10->setText(configFile->value("Detection_Position/part1_rotation10").toString());
     //Part 2
+    ui->Part2_name->setText(configFile->value("Part_Name/part2_name").toString());
     ui->part2_camera1->setText(configFile->value("Detection_Position/part2_camera1").toString());
     ui->part2_camera2->setText(configFile->value("Detection_Position/part2_camera2").toString());
     ui->part2_rotation1->setText(configFile->value("Detection_Position/part2_rotation1").toString());
@@ -130,6 +137,7 @@ void pmd::disp_configure_parameter()
     ui->part2_rotation9->setText(configFile->value("Detection_Position/part2_rotation9").toString());
     ui->part2_rotation10->setText(configFile->value("Detection_Position/part2_rotation10").toString());
     //Part 3
+    ui->Part3_name->setText(configFile->value("Part_Name/part3_name").toString());
     ui->part3_camera1->setText(configFile->value("Detection_Position/part3_camera1").toString());
     ui->part3_camera2->setText(configFile->value("Detection_Position/part3_camera2").toString());
     ui->part3_rotation1->setText(configFile->value("Detection_Position/part3_rotation1").toString());
@@ -143,6 +151,7 @@ void pmd::disp_configure_parameter()
     ui->part3_rotation9->setText(configFile->value("Detection_Position/part3_rotation9").toString());
     ui->part3_rotation10->setText(configFile->value("Detection_Position/part3_rotation10").toString());
     //Part 4
+    ui->Part4_name->setText(configFile->value("Part_Name/part4_name").toString());
     ui->part4_camera1->setText(configFile->value("Detection_Position/part4_camera1").toString());
     ui->part4_camera2->setText(configFile->value("Detection_Position/part4_camera2").toString());
     ui->part4_rotation1->setText(configFile->value("Detection_Position/part4_rotation1").toString());
@@ -156,6 +165,7 @@ void pmd::disp_configure_parameter()
     ui->part4_rotation9->setText(configFile->value("Detection_Position/part4_rotation9").toString());
     ui->part4_rotation10->setText(configFile->value("Detection_Position/part4_rotation10").toString());
     //Part 5
+    ui->Part5_name->setText(configFile->value("Part_Name/part5_name").toString());
     ui->part5_camera1->setText(configFile->value("Detection_Position/part5_camera1").toString());
     ui->part5_camera2->setText(configFile->value("Detection_Position/part5_camera2").toString());
     ui->part5_rotation1->setText(configFile->value("Detection_Position/part5_rotation1").toString());
