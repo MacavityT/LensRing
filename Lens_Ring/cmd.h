@@ -8,10 +8,12 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QMouseEvent>
 
 #include "HalconCpp.h"
 #include "Dmc1000.h"
 #include "ic_capture.h"
+#include "mainwindow.h"
 
 using namespace HalconCpp;
 namespace Ui {
@@ -27,17 +29,28 @@ public:
     ~CMD();
 
     //Halcon variable
-    HObject image1,image2;
+    HObject ho_Image1,ho_Image2;
+    HObject ho_Region;
+    HTuple hv_WindowHandle, hv_WindowHandle1, hv_WindowHandle2;
 
     QSettings *configFile;
     IC_Capture *cap;
+
+    bool first_open1=true;
+    bool first_open2=true;
 
     long StrVel=0;
     long MaxVel=0;
     double Tacc=0;
 
+    int mouse_x;
+    int mouse_y;
+
     void disp_parameters();
     QString select_path();
+
+protected:
+    void mouseMoveEvent(QMouseEvent *event);
 
 signals:
 //    void signal_cap_image1();

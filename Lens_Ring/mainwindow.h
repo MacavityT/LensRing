@@ -9,6 +9,7 @@
 #include <QList>
 #include <QFileDialog>
 #include <QSettings>
+#include<QMetaType>
 
 #include "Dmc1000.h"
 #include "HalconCpp.h"
@@ -31,7 +32,11 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();    
+    ~MainWindow();
+protected:
+    void closeEvent(QCloseEvent *);
+//Halocn variable define
+    HTuple hv_WindowHandle1, hv_WindowHandle2;
 //pointer define
     QApplication *app;
     IC_Capture *ic_cap;
@@ -41,10 +46,10 @@ public:
 //variable define
     bool board_initialization=true;
     bool First_Start=true;
-    bool First_OpenWindow=true;
+    bool First_OpenWindow1=true;
+    bool First_OpenWindow2=true;
     int present_part=0;
 //function define
-    void closeEvent(QCloseEvent *);
     QString load_model();
     void disp_path();
     void disp_present_path(int);

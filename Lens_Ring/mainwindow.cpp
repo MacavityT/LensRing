@@ -1,9 +1,13 @@
 #include "string"
-std::string tantai_yan="The most handsome boy!";
-std::string author=tantai_yan;
-std::string lao_zhang="Sha bi";
-std::string Zhang_Junjie=lao_zhang;
-std::string date="20170412";
+
+struct preface{
+    std::string tantai_yan="The most handsome boy!";
+    std::string author=tantai_yan;
+    std::string lao_zhang="Sha bi";
+    std::string Zhang_Junjie=lao_zhang;
+    std::string date="20170412";
+};
+
 //                       ::
 //                      :;J7, :,                        ::;7:
 //                      ,ivYi, ,                       ;LLLFS:
@@ -53,6 +57,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle(tr("Control System"));
     qRegisterMetaType<DWORD>("DWORD");
+    qRegisterMetaType<HObject>("HObject");
+    qRegisterMetaType<HTuple>("HTuple");
 
     configFile=new QSettings(".\\Lens-Ring\\Parameters_Setting.ini",QSettings::IniFormat);
     configFile1=new QSettings(".\\Lens-Ring\\Temporary_File.ini",QSettings::IniFormat);
@@ -83,10 +89,10 @@ MainWindow::MainWindow(QWidget *parent) :
 //initialization the card and it's parameters
     ControlCard_Initialization();
     disp_path();
+    ic_cap->start();
     if(board_initialization)
     {
-        run->start();
-        ic_cap->start();
+        run->start();        
     }
 }
 
@@ -106,6 +112,23 @@ MainWindow::~MainWindow()
     ic_cap->deleteLater();
     //close the control card
     d1000_board_close();
+}
+
+void MainWindow::closeEvent( QCloseEvent * event )
+{
+  switch( QMessageBox::information( this, tr("Control System"),tr("Really Exit?"),\
+          tr("Yes"), tr("No"),0, 1 ) ) //  the symbol "\" is a sign to shift the index and line feed
+{
+  case 0:
+      event->accept();
+      break;
+  case 1:
+      event->ignore();
+      break;
+  default:
+      event->ignore();
+      break;
+}
 }
 
 /////Load Halcon Model
@@ -310,22 +333,6 @@ void MainWindow::on_load_model_10_clicked()
 
 
 /////UI Control function
-void MainWindow::closeEvent( QCloseEvent * event )
-{
-  switch( QMessageBox::information( this, tr("Control System"),tr("Really Exit?"),\
-          tr("Yes"), tr("No"),0, 1 ) ) //  the symbol "\" is a sign to shift the index and line feed
-{
-  case 0:
-      event->accept();
-      break;
-  case 1:
-      event->ignore();
-      break;
-  default:
-      event->ignore();
-      break;
-}
-}
 
 void MainWindow::slot_open_Camera(bool y_n)
 {
@@ -342,6 +349,8 @@ void MainWindow::slot_open_Camera(bool y_n)
 void MainWindow::on_actionCMD_triggered()
 {
     auto NewDialog = new CMD();
+    connect(ic_cap,SIGNAL(signal_disp_image3(HObject)),NewDialog,SLOT(slot_disp_image1(HObject)));
+    connect(ic_cap,SIGNAL(signal_disp_image4(HObject)),NewDialog,SLOT(slot_disp_image2(HObject)));
     NewDialog->setAttribute(Qt::WA_DeleteOnClose);//let the dialog auto delete when click the X.
     NewDialog->setAttribute(Qt::WA_QuitOnClose,false);//let the dialog close with mianwindow exit.
     NewDialog->show();
@@ -421,6 +430,7 @@ void MainWindow::lock_all_buttons(bool YN)
 
 void MainWindow::on_START_clicked()
 {
+    ic_cap->start();
     ic_cap->action_enable=true;
     if(First_Start)
     {
@@ -494,10 +504,35 @@ void MainWindow::ALL_Origin_Back()
 
 void MainWindow::slot_disp_image1(HObject image)
 {
+    if(First_OpenWindow1)
+    {
+        HTuple hv_Width, hv_Height;
+        GetImageSize(image, &hv_Width, &hv_Height);
+        SetWindowAttr("background_color","black");
+        Hlong winID= this->winId();
+        OpenWindow(70,50,430,310,winID,"visible","",&hv_WindowHandle1);
+        First_OpenWindow1=false;
+    }
+    HDevWindowStack::Push(hv_WindowHandle1);
+    if (HDevWindowStack::IsOpen())
+      DispObj(image, HDevWindowStack::GetActive());
 }
 
 void MainWindow::slot_disp_image2(HObject image)
-{}
+{
+    if(First_OpenWindow2)
+    {
+        HTuple hv_Width, hv_Height;
+        GetImageSize(image, &hv_Width, &hv_Height);
+        SetWindowAttr("background_color","black");
+        Hlong winID= this->winId();
+        OpenWindow(20,800,430,310,winID,"visible","",&hv_WindowHandle2);
+        First_OpenWindow2=false;
+    }
+    HDevWindowStack::Push(hv_WindowHandle2);
+    if (HDevWindowStack::IsOpen())
+      DispObj(image, HDevWindowStack::GetActive());
+}
 
 void MainWindow::slot_detection_image1(HObject image)
 {}

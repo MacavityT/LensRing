@@ -15,14 +15,13 @@ public:
     ~IC_Capture();
     void run();
 
-    bool cmd_cap=false;
-
     //Halcon variable
-    HObject  ho_Image1,ho_Image2,ho_Image3,ho_Image4;
-    HTuple  hv_AcqHandle1,hv_AcqHandle2,hv_AcqHandle3,hv_AcqHandle4;
+    HObject  ho_Image1,ho_Image2;
+    HTuple  hv_AcqHandle1,hv_AcqHandle2;
 
-    bool action_enable=false;
-    bool cmd_cut=false;
+    static bool action_enable;
+    static bool cmd_cut;
+    static bool cmd_cap;
 
 signals:
     void signal_open_Camera(bool);
