@@ -499,16 +499,17 @@ void MainWindow::lock_all_buttons(bool YN)
 
 void MainWindow::on_START_clicked()
 {
+    if(d1000_check_done(0)==0)
+    {
+        return;
+    }
     if(First_Start)
     {
-//        emit signal_reset();
-        run->reset_start=true;
         First_Start=false;
     }
     else
     {
         emit reload_parameters(present_part);
-        run->move_to_detection_position_start=true;
         run->stop=false;
         run->start();
     }
@@ -559,10 +560,21 @@ void MainWindow::on_STOP_clicked()
 
 void MainWindow::on_RESET_clicked()
 {
+    if(d1000_check_done(0)==0)
+    {
+        return;
+    }
     run->reset_start=true;
 }
 
-
+void MainWindow::on_FOCUS_clicked()
+{
+    if(d1000_check_done(0)==0)
+    {
+        return;
+    }
+    run->move_to_detection_position_start=true;
+}
 //////////Control Card Function
 ///
 void MainWindow::ControlCard_Initialization()
@@ -572,8 +584,8 @@ void MainWindow::ControlCard_Initialization()
     if( d1000_board_init()<=0)
     {
         app->beep();
-        QMessageBox::information(this,tr("Warning"),tr("Initialization Failed!"),tr("OK"),0);
-        this->setEnabled(false);
+//        QMessageBox::information(this,tr("Warning"),tr("Initialization Failed!"),tr("OK"),0);
+//        this->setEnabled(false);
         board_initialization=false;
         return;
     }

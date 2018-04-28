@@ -98,7 +98,7 @@ background-color: rgb(164, 205, 106);</string>
     <property name="geometry">
      <rect>
       <x>560</x>
-      <y>470</y>
+      <y>480</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -114,7 +114,7 @@ background-color: rgb(164, 205, 106);</string>
     <property name="geometry">
      <rect>
       <x>720</x>
-      <y>470</y>
+      <y>480</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -130,7 +130,7 @@ background-color: rgb(164, 205, 106);</string>
     <property name="geometry">
      <rect>
       <x>560</x>
-      <y>520</y>
+      <y>530</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -146,7 +146,7 @@ background-color: rgb(164, 205, 106);</string>
     <property name="geometry">
      <rect>
       <x>720</x>
-      <y>520</y>
+      <y>530</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -161,7 +161,7 @@ background-color: rgb(164, 205, 106);</string>
    <widget class="QPushButton" name="RESET">
     <property name="geometry">
      <rect>
-      <x>640</x>
+      <x>560</x>
       <y>580</y>
       <width>75</width>
       <height>23</height>
@@ -816,6 +816,22 @@ background-color: rgb(164, 205, 106);</string>
     <property name="value">
      <number>24</number>
     </property>
+   </widget>
+   <widget class="QPushButton" name="FOCUS">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>580</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>对焦</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string notr="true">Control_Buttons</string>
+    </attribute>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

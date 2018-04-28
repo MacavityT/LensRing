@@ -52,6 +52,7 @@ public:
     int mouse_y;
 
     void disp_parameters();
+    void lock_tool_buttons(bool);
     QString select_path();
 
 protected:
@@ -84,18 +85,6 @@ private slots:
 
     void on_LOW_SPEED_clicked();
 
-    void on_Camera1_up_clicked();
-
-    void on_Camera1_down_clicked();
-
-    void on_Camera2_up_clicked();
-
-    void on_Camera2_down_clicked();
-
-    void on_Anticlockwise_clicked();
-
-    void on_Clockwise_clicked();
-
     void on_Create_Model1_clicked();
 
     void on_Create_Model2_clicked();
@@ -119,6 +108,30 @@ private slots:
     void on_Brightness_add_clicked();
 
     void on_Brightness_decrease_clicked();
+
+    void on_Camera1_up_pressed();
+
+    void on_Camera1_down_released();
+
+    void on_Camera2_up_2_pressed();
+
+    void on_Camera2_down_2_released();
+
+    void on_Camera2_up_2_released();
+
+    void on_Camera2_down_2_pressed();
+
+    void on_Camera1_up_released();
+
+    void on_Camera1_down_pressed();
+
+    void on_Anticlockwise_pressed();
+
+    void on_Anticlockwise_released();
+
+    void on_Clockwise_pressed();
+
+    void on_Clockwise_released();
 
 private:
     Ui::CMD *ui;

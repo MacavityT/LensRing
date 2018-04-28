@@ -187,13 +187,8 @@ void Running::slot_reset()
     {
         d1000_set_command_pos(k,0);
     }
-    //move to detection position
-    d1000_start_ta_move(1,camera[0],speed_set[1][0],speed_set[1][1],speed_set[1][2]);
-    d1000_start_ta_move(2,camera[1],speed_set[2][0],speed_set[2][1],speed_set[2][2]);
-    all_axis_check_done();
     //set flag
     reset_finished=true;
-    detection_position_arrive=true;
     emit signal_lock_all_buttons(false);
     qDebug()<<"All reset finished";
 }

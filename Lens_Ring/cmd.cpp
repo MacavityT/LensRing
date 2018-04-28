@@ -18,6 +18,7 @@ CMD::CMD(QWidget *parent) :
     send_data[1]=1;
     bright_value=configFile->value("Brightness").toInt();
     // let the buttons of commissing be auto-repeat
+    //just only brightness buttons is in the group
     QList<QAbstractButton*> list=ui->CMD_Button->buttons();
     QList<QAbstractButton*>::iterator i;
     for(i=list.begin();i!=list.end();++i)
@@ -35,6 +36,7 @@ CMD::CMD(QWidget *parent) :
     //initializer the speed
     on_LOW_SPEED_clicked();
     disp_parameters();
+    lock_tool_buttons(true);
     if(light->open(QIODevice::ReadWrite))
     {
         light->setBaudRate(9600);
@@ -77,6 +79,17 @@ void CMD::mouseMoveEvent(QMouseEvent *event)
 
 ////UI control and commissioning control
 ///
+void CMD::lock_tool_buttons(bool Y_N)
+{
+    QList<QAbstractButton*> list=ui->Tool_Buttons->buttons();
+    QList<QAbstractButton*>::iterator i;
+    for(i=list.begin();i!=list.end();++i)
+    {
+        QAbstractButton *temporary_button=*i;
+        temporary_button->setEnabled(!Y_N);
+    }
+}
+
 void CMD::disp_parameters()
 {
     QString _position=QString::number(d1000_get_command_pos(0));
@@ -184,45 +197,87 @@ void CMD::on_LOW_SPEED_clicked()
 
 //Commissioning Button function.
 //camera2 = rise and descend
-void CMD::on_Camera1_up_clicked()
+void CMD::on_Camera2_up_2_pressed()
 {
-    d1000_start_t_move(2,50,StrVel,MaxVel,Tacc);
-    QString position=QString::number(d1000_get_command_pos(2)+50);
+    d1000_start_tv_move(2,StrVel,MaxVel,Tacc);
+    QString position=QString::number(d1000_get_command_pos(2));
     ui->position2->setText(position);
 }
 
-void CMD::on_Camera1_down_clicked()
+void CMD::on_Camera2_up_2_released()
 {
-    d1000_start_t_move(2,-50,StrVel,MaxVel,Tacc);
-    QString position=QString::number(d1000_get_command_pos(2)-50);
+    d1000_immediate_stop(2);
+    QString position=QString::number(d1000_get_command_pos(2));
     ui->position2->setText(position);
 }
 
-void CMD::on_Camera2_up_clicked()
+void CMD::on_Camera2_down_2_pressed()
 {
-    d1000_start_t_move(1,50,StrVel,MaxVel,Tacc);
-    QString position=QString::number(d1000_get_command_pos(1)+50);
+    d1000_start_tv_move(2,StrVel,-MaxVel,Tacc);
+    QString position=QString::number(d1000_get_command_pos(2));
+    ui->position2->setText(position);
+}
+
+void CMD::on_Camera2_down_2_released()
+{
+    d1000_immediate_stop(2);
+    QString position=QString::number(d1000_get_command_pos(2));
+    ui->position2->setText(position);
+}
+
+void CMD::on_Camera1_up_pressed()
+{
+    d1000_start_tv_move(1,StrVel,MaxVel,Tacc);
+    QString position=QString::number(d1000_get_command_pos(1));
     ui->position1->setText(position);
 }
 
-void CMD::on_Camera2_down_clicked()
+void CMD::on_Camera1_up_released()
 {
-    d1000_start_t_move(1,-50,StrVel,MaxVel,Tacc);
-    QString position=QString::number(d1000_get_command_pos(1)-50);
+    d1000_immediate_stop(1);
+    QString position=QString::number(d1000_get_command_pos(1));
     ui->position1->setText(position);
 }
 
-void CMD::on_Anticlockwise_clicked()
+void CMD::on_Camera1_down_pressed()
 {
-    d1000_start_t_move(0,-50,StrVel,MaxVel,Tacc);
-    QString position=QString::number(d1000_get_command_pos(0)-50);
+    d1000_start_tv_move(1,StrVel,-MaxVel,Tacc);
+    QString position=QString::number(d1000_get_command_pos(1));
+    ui->position1->setText(position);
+}
+
+void CMD::on_Camera1_down_released()
+{
+    d1000_immediate_stop(1);
+    QString position=QString::number(d1000_get_command_pos(1));
+    ui->position1->setText(position);
+}
+
+void CMD::on_Anticlockwise_pressed()
+{
+    d1000_start_tv_move(0,StrVel,MaxVel,Tacc);
+    QString position=QString::number(d1000_get_command_pos(0));
     ui->position0->setText(position);
 }
 
-void CMD::on_Clockwise_clicked()
+void CMD::on_Anticlockwise_released()
 {
-    d1000_start_t_move(0,50,StrVel,MaxVel,Tacc);
-    QString position=QString::number(d1000_get_command_pos(0)+50);
+    d1000_immediate_stop(0);
+    QString position=QString::number(d1000_get_command_pos(0));
+    ui->position0->setText(position);
+}
+
+void CMD::on_Clockwise_pressed()
+{
+    d1000_start_tv_move(0,StrVel,-MaxVel,Tacc);
+    QString position=QString::number(d1000_get_command_pos(0));
+    ui->position0->setText(position);
+}
+
+void CMD::on_Clockwise_released()
+{
+    d1000_immediate_stop(0);
+    QString position=QString::number(d1000_get_command_pos(0));
     ui->position0->setText(position);
 }
 
@@ -237,12 +292,14 @@ void CMD::on_cap_image1_clicked()
 {
 //    emit signal_cap_image1();
     cap->cmd_cut=true;
+    lock_tool_buttons(false);
 }
 
 void CMD::on_cap_image2_clicked()
 {
 //    emit signal_cap_image2();
     cap->cmd_cut=true;
+    lock_tool_buttons(false);
 }
 
 //acquire image
@@ -405,6 +462,7 @@ void CMD::on_Create_Model1_clicked()
     {
         QMessageBox::information(this,tr("Warning"),tr("Create Model Failed!"),tr("OK"),0);
         cap->cmd_cut=false;
+        lock_tool_buttons(true);
         return;
     }
 
@@ -414,6 +472,7 @@ void CMD::on_Create_Model1_clicked()
     //finally clear the region
     GenEmptyObj(&ho_Region);
     cap->cmd_cut=false;
+    lock_tool_buttons(true);
 }
 
 //union all regions and select path to save
@@ -432,6 +491,7 @@ void CMD::on_Create_Model2_clicked()
     {
         QMessageBox::information(this,tr("Warning"),tr("Create Model Failed!"),tr("OK"),0);
         cap->cmd_cut=false;
+        lock_tool_buttons(true);
         return;
     }
 
@@ -440,6 +500,7 @@ void CMD::on_Create_Model2_clicked()
     //finally clear the region
     GenEmptyObj(&ho_Region);
     cap->cmd_cut=false;
+    lock_tool_buttons(true);
 }
 
 QString CMD::select_path()
@@ -460,4 +521,3 @@ QString CMD::select_path()
         return filename;
     }
 }
-

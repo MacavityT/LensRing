@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QToolButton" name="Camera1_down">
+  <widget class="QToolButton" name="Camera2_down_2">
    <property name="geometry">
     <rect>
      <x>725</x>
@@ -28,32 +28,26 @@
    <property name="arrowType">
     <enum>Qt::DownArrow</enum>
    </property>
-   <attribute name="buttonGroup">
-    <string notr="true">CMD_Button</string>
-   </attribute>
+  </widget>
+  <widget class="QToolButton" name="Camera2_up_2">
+   <property name="geometry">
+    <rect>
+     <x>725</x>
+     <y>530</y>
+     <width>80</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>...</string>
+   </property>
+   <property name="arrowType">
+    <enum>Qt::UpArrow</enum>
+   </property>
   </widget>
   <widget class="QToolButton" name="Camera1_up">
    <property name="geometry">
     <rect>
-     <x>725</x>
-     <y>530</y>
-     <width>80</width>
-     <height>40</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>...</string>
-   </property>
-   <property name="arrowType">
-    <enum>Qt::UpArrow</enum>
-   </property>
-   <attribute name="buttonGroup">
-    <string notr="true">CMD_Button</string>
-   </attribute>
-  </widget>
-  <widget class="QToolButton" name="Camera2_up">
-   <property name="geometry">
-    <rect>
      <x>860</x>
      <y>530</y>
      <width>80</width>
@@ -66,11 +60,8 @@
    <property name="arrowType">
     <enum>Qt::UpArrow</enum>
    </property>
-   <attribute name="buttonGroup">
-    <string notr="true">CMD_Button</string>
-   </attribute>
   </widget>
-  <widget class="QToolButton" name="Camera2_down">
+  <widget class="QToolButton" name="Camera1_down">
    <property name="geometry">
     <rect>
      <x>860</x>
@@ -85,9 +76,6 @@
    <property name="arrowType">
     <enum>Qt::DownArrow</enum>
    </property>
-   <attribute name="buttonGroup">
-    <string notr="true">CMD_Button</string>
-   </attribute>
   </widget>
   <widget class="QLabel" name="label_4">
    <property name="geometry">
@@ -123,9 +111,6 @@
    <property name="arrowType">
     <enum>Qt::RightArrow</enum>
    </property>
-   <attribute name="buttonGroup">
-    <string notr="true">CMD_Button</string>
-   </attribute>
   </widget>
   <widget class="QToolButton" name="Anticlockwise">
    <property name="geometry">
@@ -142,9 +127,6 @@
    <property name="arrowType">
     <enum>Qt::LeftArrow</enum>
    </property>
-   <attribute name="buttonGroup">
-    <string notr="true">CMD_Button</string>
-   </attribute>
   </widget>
   <widget class="QPushButton" name="HIGH_SPEED">
    <property name="geometry">
@@ -558,6 +540,9 @@ background-color: rgb(164, 205, 106);</string>
    <property name="text">
     <string>矩形</string>
    </property>
+   <attribute name="buttonGroup">
+    <string notr="true">Tool_Buttons</string>
+   </attribute>
   </widget>
   <widget class="QPushButton" name="circle_tool">
    <property name="geometry">
@@ -571,6 +556,9 @@ background-color: rgb(164, 205, 106);</string>
    <property name="text">
     <string>圆</string>
    </property>
+   <attribute name="buttonGroup">
+    <string notr="true">Tool_Buttons</string>
+   </attribute>
   </widget>
   <widget class="QPushButton" name="ellipse_tool">
    <property name="geometry">
@@ -584,6 +572,9 @@ background-color: rgb(164, 205, 106);</string>
    <property name="text">
     <string>椭圆</string>
    </property>
+   <attribute name="buttonGroup">
+    <string notr="true">Tool_Buttons</string>
+   </attribute>
   </widget>
   <widget class="QPushButton" name="rectangle2_tool">
    <property name="geometry">
@@ -597,6 +588,9 @@ background-color: rgb(164, 205, 106);</string>
    <property name="text">
     <string>旋转矩形</string>
    </property>
+   <attribute name="buttonGroup">
+    <string notr="true">Tool_Buttons</string>
+   </attribute>
   </widget>
   <widget class="QPushButton" name="free_tool">
    <property name="geometry">
@@ -610,6 +604,9 @@ background-color: rgb(164, 205, 106);</string>
    <property name="text">
     <string>任意区域</string>
    </property>
+   <attribute name="buttonGroup">
+    <string notr="true">Tool_Buttons</string>
+   </attribute>
   </widget>
   <widget class="QPushButton" name="cap_image1">
    <property name="geometry">
@@ -669,10 +666,10 @@ background-color: rgb(164, 205, 106);</string>
   <tabstop>LOW_SPEED_SET</tabstop>
   <tabstop>Low_Speed_Acceleration</tabstop>
   <tabstop>LOW_SPEED</tabstop>
+  <tabstop>Camera2_up_2</tabstop>
+  <tabstop>Camera2_down_2</tabstop>
   <tabstop>Camera1_up</tabstop>
   <tabstop>Camera1_down</tabstop>
-  <tabstop>Camera2_up</tabstop>
-  <tabstop>Camera2_down</tabstop>
   <tabstop>Anticlockwise</tabstop>
   <tabstop>Clockwise</tabstop>
   <tabstop>Brightness_add</tabstop>
@@ -682,5 +679,6 @@ background-color: rgb(164, 205, 106);</string>
  <connections/>
  <buttongroups>
   <buttongroup name="CMD_Button"/>
+  <buttongroup name="Tool_Buttons"/>
  </buttongroups>
 </ui>

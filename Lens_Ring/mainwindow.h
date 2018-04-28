@@ -123,6 +123,8 @@ private slots:
 
     void on_actionPART5_triggered();
 
+    void on_FOCUS_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
