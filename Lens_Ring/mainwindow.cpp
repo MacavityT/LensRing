@@ -7,7 +7,7 @@ struct preface{
     std::string Zhang_Junjie=lao_zhang;
     std::string date="20170412";
 };
-
+// A git test.
 //                       ::
 //                      :;J7, :,                        ::;7:
 //                      ,ivYi, ,                       ;LLLFS:
